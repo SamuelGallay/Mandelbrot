@@ -32,3 +32,11 @@ build:
 artifacts:
   - path: install\Mandelbrot.exe
     name: mandelbrot-windows-32bits
+
+deploy:
+  provider: GitHub
+  auth_token: 
+    secure: huiMZBxW7TQokBS6FppoWYg5jOF/hZSeiZRp5tIU5w2Vs25Ve0dQ+VTuMoRYQhMa
+  artifact: mandelbrot-windows-32bits
+  on:
+    appveyor_repo_tag: true

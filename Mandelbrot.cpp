@@ -17,7 +17,7 @@ Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
 
 void Mandelbrot::setSize(unsigned int width, unsigned int height)
 {
-    if (rendu.getSize().x != width or rendu.getSize().y != height)
+    if ( (rendu.getSize().x != width) || (rendu.getSize().y != height) )
     {
         rendu.create(width, height, sf::Color::Black);
         iterations.resize(width * height);
