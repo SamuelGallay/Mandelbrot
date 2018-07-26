@@ -21,8 +21,8 @@ int main(int, char const**)
     std::string chemin = "";
     #endif
     
-    float vitesse = 0.6;
-    float vitZoom = 1.4;
+    double vitesse = 0.6;
+    double vitZoom = 1.4;
     while (window.isOpen())
     {
         sf::Event event;

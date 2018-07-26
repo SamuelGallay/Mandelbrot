@@ -14,9 +14,9 @@ public:
     Mandelbrot();
     Mandelbrot(unsigned int width, unsigned int height);
     void setSize(unsigned int width, unsigned int height);
-    void setZoom(float ratio){
+    void setZoom(double ratio){
         zoom = ratio;
-        iterMax = 50*std::log(ratio+1);
+        iterMax = 100*std::log(ratio+1);
         update();
     }
     void move(sf::Vector2f direction){
@@ -24,7 +24,7 @@ public:
         vue.top += direction.y / zoom;
         update();
     }
-    float getZoom(){
+    double getZoom(){
         return zoom;
     }
     sf::Image getImage(){
@@ -37,8 +37,8 @@ private:
     sf::Image rendu;
     std::vector<unsigned int> iterations;
     unsigned int iterMax;
-    sf::Rect<float> vue;
-    float zoom;
+    sf::Rect<double> vue;
+    double zoom;
 };
 
 #endif /* Mandelbrot_hpp */
