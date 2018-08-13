@@ -12,8 +12,11 @@ std::string chemin = resourcePath() + "../../../";
 std::string chemin = "";
 #endif
 
-Application::Application():mWindow(sf::VideoMode(1000, 600), "SFML mWindow"),mFractale(1000, 600),
-mVitesse(0.6),mVitZoom(1.4),mFlou(1)
+Application::Application():mWindow(sf::VideoMode(1000, 600), "SFML mWindow")
+,mFractale(1000, 600),
+mVitesse(0.6)
+,mVitZoom(1.4)
+,mFlou(1)
 {
     mWindow.setFramerateLimit(30);
 }
@@ -52,7 +55,7 @@ void Application::processEvents()
         }
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R && mFlou > 1){
             mFlou /= 2;
-            sf::FloatRect visibleArea(0, 0, mWindow.getSize().x, mWindow.getSize().y);
+            sf::FloatRect visibleArea(0, 0, static_cast<float>(mWindow.getSize().x), static_cast<float>(mWindow.getSize().y));
             mWindow.setView(sf::View(visibleArea));
             mFractale.setSize(mWindow.getSize().x/ mFlou, mWindow.getSize().y/ mFlou);
         }
