@@ -11,22 +11,20 @@
 #else
 #endif
 
+#if SAM_XCODE
+std::string chemin = resourcePath() + "../../../";
+#else
+std::string chemin = "";
+#endif
+
 Application::Application():mWindow(sf::VideoMode(1000, 600), "SFML mWindow"),mFractale(1000, 600),
-mVitesse(0.6),mVitZoom(1,4),mFlou(1)
+mVitesse(0.6),mVitZoom(1.4),mFlou(1)
 {
     mWindow.setFramerateLimit(30);
 }
 
 void Application::run()
 {
-
-    
-#if SAM_XCODE
-    std::string chemin = resourcePath() + "../../../";
-#else
-    std::string chemin = "";
-#endif
-    
     while (mWindow.isOpen())
     {
         processEvents();
