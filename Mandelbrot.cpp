@@ -81,9 +81,9 @@ void Mandelbrot::render(){
             if (i == iterMax)
                 couleur = sf::Color::Black;
             else {
-                couleur.r = liste[depart].r + (liste[arrivee].r - liste[depart].r) * distRel;
-                couleur.g = liste[depart].g + (liste[arrivee].g - liste[depart].g) * distRel;
-                couleur.b = liste[depart].b + (liste[arrivee].b - liste[depart].b) * distRel;
+                couleur.r = liste[depart].r + static_cast<sf::Uint8>( (liste[arrivee].r - liste[depart].r) * distRel );
+                couleur.g = liste[depart].g + static_cast<sf::Uint8>( (liste[arrivee].g - liste[depart].g) * distRel );
+                couleur.b = liste[depart].b + static_cast<sf::Uint8>( (liste[arrivee].b - liste[depart].b) * distRel );
             }
             rendu.setPixel(abscisse, ordonnee, couleur);
         }

@@ -46,7 +46,7 @@ void Application::processEvents()
             mFractale.move(sf::Vector2f(-1*mVitesse, 0));
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F){
             mFlou *= 2;
-            sf::FloatRect visibleArea(0, 0, mWindow.getSize().x, mWindow.getSize().y);
+            sf::FloatRect visibleArea(0, 0, static_cast<float>(mWindow.getSize().x), static_cast<float>(mWindow.getSize().y) );
             mWindow.setView(sf::View(visibleArea));
             mFractale.setSize(mWindow.getSize().x/ mFlou, mWindow.getSize().y/ mFlou);
         }
@@ -69,7 +69,7 @@ void Application::processEvents()
             mFractale.setSize(mWindow.getSize().x / mFlou, mWindow.getSize().y / mFlou);
         }
         if (event.type == sf::Event::Resized){
-            sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+            sf::FloatRect visibleArea(0, 0, static_cast<float>(event.size.width), static_cast<float>(event.size.height) );
             mWindow.setView(sf::View(visibleArea));
             mFractale.setSize(event.size.width / mFlou, event.size.height / mFlou);
         }

@@ -17,8 +17,8 @@ private:
 private:
     sf::RenderWindow mWindow;
     Mandelbrot mFractale;
-    double mVitesse;
-    double mVitZoom;
+    float mVitesse;
+    float mVitZoom;
     int mFlou;
 };
 
