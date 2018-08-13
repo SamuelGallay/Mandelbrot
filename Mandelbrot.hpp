@@ -11,7 +11,6 @@
 class Mandelbrot
 {
 public:
-    Mandelbrot();
     Mandelbrot(unsigned int width, unsigned int height);
     void setSize(unsigned int width, unsigned int height);
     void setZoom(double ratio){
@@ -30,7 +29,7 @@ public:
     sf::Image getImage(){
         return rendu;
     }
-    
+
 private:
     std::vector<sf::Color> liste;
     void update();
