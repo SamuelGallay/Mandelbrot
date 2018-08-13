@@ -11,10 +11,10 @@
 #else
 #endif
 
-Application::Application():mmWindow(sf::VideoMode(1000, 600), "SFML mWindow"),mmFractale(1000, 600),
-mmVitesse(0.6),mmmVitZoom(1,4),mmFlou(1)
+Application::Application():mWindow(sf::VideoMode(1000, 600), "SFML mWindow"),mFractale(1000, 600),
+mVitesse(0.6),mVitZoom(1,4),mFlou(1)
 {
-    mmWindow.setFramerateLimit(30);
+    mWindow.setFramerateLimit(30);
 }
 
 void Application::run()
@@ -41,7 +41,7 @@ void Application::processEvents()
     while (mWindow.pollEvent(event))
     {
             if (event.type == sf::Event::Closed)
-                mmWindow.close();
+                mWindow.close();
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                 mWindow.close();
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up)
@@ -65,9 +65,9 @@ void Application::processEvents()
                 mFractale.setSize(mWindow.getSize().x/ mFlou, mWindow.getSize().y/ mFlou);
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Z)
-                mFractale.setZoom(mFractale.getZoom()*mmVitZoom);
+                mFractale.setZoom(mFractale.getZoom()*mVitZoom);
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::S)
-                mFractale.setZoom(mFractale.getZoom()/mmVitZoom);
+                mFractale.setZoom(mFractale.getZoom()/mVitZoom);
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Y) {
                 mFractale.getImage().saveToFile(chemin + std::to_string(time(NULL)) + ".png");
             }
