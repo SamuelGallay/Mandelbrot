@@ -15,6 +15,7 @@ set(
 	SOURCES
 	main.cpp
 	Mandelbrot.cpp
+	Application.cpp
 )
 
 add_executable(Mandelbrot ${SOURCES})
