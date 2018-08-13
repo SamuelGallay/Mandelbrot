@@ -12,7 +12,7 @@
 #endif
 
 Application::Application():mWindow(sf::VideoMode(1000, 600), "SFML mWindow"),mFractale(1000, 600),
-mVitesse(0.6),mVitZoom(1,4),mFlou(1)
+mVitesse(0.6),mVitZoom(1.4),mFlou(1)
 {
     mWindow.setFramerateLimit(30);
 }
