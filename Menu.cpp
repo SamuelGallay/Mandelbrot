@@ -5,17 +5,17 @@ Menu::Menu()
     //ctor
 }
 
-Menu::run()
+void Menu::run()
 {
 
 }
 
-Menu::processEvents()
+void Menu::processEvents()
 {
 
 }
 
-Menu::render()
+void Menu::render()
 {
 
 }
