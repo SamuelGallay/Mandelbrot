@@ -1,7 +1,10 @@
 #include "Application.hpp"
+#include "Menu.hpp"
 
 int main()
 {
-    Application objet;
-    objet.run();
+    Menu accueil;
+    accueil.run();
+    //Application objet;
+    //objet.run();
 }

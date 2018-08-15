@@ -2,6 +2,7 @@
 #define MENU_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Bouton.hpp"
 
 class Menu
 {
@@ -15,6 +16,7 @@ class Menu
 
     private:
         sf::RenderWindow mWindow;
+        Bouton mCommencer;
 };
 
 #endif // MENU_H
