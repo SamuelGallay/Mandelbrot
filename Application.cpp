@@ -12,7 +12,7 @@ std::string chemin = resourcePath() + "../../../";
 std::string chemin = "";
 #endif
 
-Application::Application():mWindow(sf::VideoMode(1000, 600), "SFML mWindow"), mFractale(1000, 600), mVitesse(0.6f) ,mVitZoom(1.4f), mFlou(1)
+Application::Application():mWindow(sf::VideoMode(1000, 600), "Mandelbrot"), mFractale(1000, 600), mVitesse(0.6f) ,mVitZoom(1.4f), mFlou(1)
 {
     mWindow.setFramerateLimit(1);
 }
