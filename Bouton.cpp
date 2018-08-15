@@ -2,7 +2,7 @@
 #include "iostream"
 #include <SFML/Graphics.hpp>
 
-Bouton::Bouton(float x,float y):mForme(sf::Vector2f(x,y)),mSteps(0)
+Bouton::Bouton(float x,float y,sf::Window &window):mForme(sf::Vector2f(x,y)),mSteps(0),mWindow(window)
 {
     mForme.setFillColor(sf::Color(50,50,150));
 }
@@ -29,12 +29,12 @@ sf::FloatRect Bouton::getGlobalBounds()
 
 bool Bouton::Test()
 {
-    sf::Vector2f mousePosition(sf::Mouse::getPosition());
-    if(getGlobalBounds().contains(mousePosition))
+    sf::Vector2f mousePosition(sf::Mouse::getPosition(mWindow));
+    sf::FloatRect colisionBox(mForme.getGlobalBounds());
+    if(colisionBox.contains(mousePosition))
     {
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            std::cout<<"bouton presse";
             mSteps=1;
             mForme.setFillColor(sf::Color(255,000,000));
         }
@@ -42,12 +42,10 @@ bool Bouton::Test()
         if((sf::Mouse::isButtonPressed(sf::Mouse::Left)==false)&& mSteps == 0)
         {
             mForme.setFillColor(sf::Color(000,255,000));
-            std::cout<<"bouton touche";
         }
 
         if((sf::Mouse::isButtonPressed(sf::Mouse::Left)==false)&& mSteps == 1)
         {
-            std::cout<<"bouton ok";
             return true;
         }
 
@@ -56,7 +54,6 @@ bool Bouton::Test()
     {
         mForme.setFillColor(sf::Color(0,0,255));
         mSteps=0;
-        std::cout<<"a";
     }
     return false;
 }

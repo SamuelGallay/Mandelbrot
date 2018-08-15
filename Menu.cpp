@@ -1,6 +1,6 @@
 #include "Menu.hpp"
 
-Menu::Menu():mWindow(sf::VideoMode(1000.f, 600.f), "Fractales"),mCommencer(200.f,100.f),isOk(false)
+Menu::Menu():mWindow(sf::VideoMode(1000.f, 600.f), "Fractales"),mCommencer(200.f,100.f,mWindow),isOk(false)
 {
     mWindow.setFramerateLimit(30);
     mCommencer.setPosition(400.f,250.f);

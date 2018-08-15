@@ -6,7 +6,7 @@
 class Bouton : public sf::Drawable, public sf::Transformable
 {
     public:
-        Bouton(float x,float y);
+        Bouton(float x,float y,sf::Window &window);
         sf::FloatRect getGlobalBounds();
         bool Test();
 
@@ -16,6 +16,7 @@ class Bouton : public sf::Drawable, public sf::Transformable
     private:
         sf::RectangleShape mForme;
         int mSteps;
+        sf::Window mWindow;
 };
 
 #endif // BOUTON_HPP
