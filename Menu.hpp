@@ -9,6 +9,7 @@ class Menu
     public:
         Menu();
         void run();
+        bool getOk();
 
     private:
         void processEvents();
@@ -17,6 +18,7 @@ class Menu
     private:
         sf::RenderWindow mWindow;
         Bouton mCommencer;
+        bool isOk;
 };
 
 #endif // MENU_H

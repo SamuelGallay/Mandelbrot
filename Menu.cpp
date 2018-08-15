@@ -1,9 +1,9 @@
 #include "Menu.hpp"
 
-Menu::Menu():mWindow(sf::VideoMode(1000.f, 600.f), "Fractales"),mCommencer(50.f,50.f)
+Menu::Menu():mWindow(sf::VideoMode(1000.f, 600.f), "Fractales"),mCommencer(200.f,100.f),isOk(false)
 {
     mWindow.setFramerateLimit(30);
-    mCommencer.setPosition(450.f,250.f);
+    mCommencer.setPosition(400.f,250.f);
 }
 
 void Menu::run()
@@ -24,7 +24,11 @@ void Menu::processEvents()
         if (event.type == sf::Event::Closed)
             mWindow.close();
     }
-
+    if(mCommencer.Test())
+    {
+        isOk=true;
+        mWindow.close();
+    }
 }
 
 void Menu::render()
@@ -32,4 +36,9 @@ void Menu::render()
     mWindow.clear(sf::Color(21,21,21));
     mWindow.draw(mCommencer);
     mWindow.display();
+}
+
+bool Menu::getOk()
+{
+    return isOk;
 }

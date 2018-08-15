@@ -7,12 +7,15 @@ class Bouton : public sf::Drawable, public sf::Transformable
 {
     public:
         Bouton(float x,float y);
+        sf::FloatRect getGlobalBounds();
+        bool Test();
 
     private:
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
         sf::RectangleShape mForme;
+        int mSteps;
 };
 
 #endif // BOUTON_HPP
