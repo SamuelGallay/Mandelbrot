@@ -16,7 +16,7 @@ class Bouton : public sf::Drawable, public sf::Transformable
     private:
         sf::RectangleShape mForme;
         int mSteps;
-        sf::Window mWindow;
+        sf::Window *mWindow;
 };
 
 #endif // BOUTON_HPP

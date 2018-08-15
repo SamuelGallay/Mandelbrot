@@ -2,7 +2,7 @@
 #include "iostream"
 #include <SFML/Graphics.hpp>
 
-Bouton::Bouton(float x,float y,sf::Window &window):mForme(sf::Vector2f(x,y)),mSteps(0),mWindow(window)
+Bouton::Bouton(float x,float y,sf::Window &window):mForme(sf::Vector2f(x,y)),mSteps(0),mWindow(&window)
 {
     mForme.setFillColor(sf::Color(50,50,150));
 }
@@ -29,7 +29,7 @@ sf::FloatRect Bouton::getGlobalBounds()
 
 bool Bouton::Test()
 {
-    sf::Vector2f mousePosition(sf::Mouse::getPosition(mWindow));
+    sf::Vector2f mousePosition(sf::Mouse::getPosition(*mWindow));
     sf::FloatRect colisionBox(mForme.getGlobalBounds());
     if(colisionBox.contains(mousePosition))
     {
