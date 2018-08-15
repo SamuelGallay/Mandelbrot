@@ -16,6 +16,8 @@ set(
 	main.cpp
 	Mandelbrot.cpp
 	Application.cpp
+	Menu.cpp
+	Bouton.cpp
 )
 
 add_executable(Mandelbrot ${SOURCES})

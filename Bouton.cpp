@@ -25,7 +25,6 @@ bool Bouton::Test()
 {
     sf::Vector2f mousePosition(sf::Mouse::getPosition(*mWindow));
     mousePosition-=getPosition();
-
     sf::FloatRect colisionBox(getGlobalBounds());
     if(colisionBox.contains(mousePosition))
     {
