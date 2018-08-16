@@ -7,7 +7,7 @@
 class Menu
 {
     public:
-        Menu();
+        Menu(sf::RenderWindow &appWindow);
         void run();
         bool getOk();
 
@@ -16,7 +16,7 @@ class Menu
         void render();
 
     private:
-        sf::RenderWindow mWindow;
+        sf::RenderWindow *mWindow;
         Bouton mCommencer;
         bool isOk;
 };

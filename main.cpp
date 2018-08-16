@@ -3,11 +3,12 @@
 
 int main()
 {
-    Menu accueil;
-    accueil.run();
-    if(accueil.getOk())
+    sf::RenderWindow window(sf::VideoMode(1000, 600), "Fractales");
+    Menu acceuil(window);
+    acceuil.run();
+    if(acceuil.getOk())
     {
-        Application objet;
+        Application objet(window);
         objet.run();
     }
 }

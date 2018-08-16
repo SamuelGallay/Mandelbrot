@@ -7,15 +7,15 @@
 class Application
 {
 public:
-    Application();
+    Application(sf::RenderWindow &appWindow);
     void run();
-    
+
 private:
     void processEvents();
     void render();
-    
+
 private:
-    sf::RenderWindow mWindow;
+    sf::RenderWindow *mWindow;
     Mandelbrot mFractale;
     float mVitesse;
     float mVitZoom;

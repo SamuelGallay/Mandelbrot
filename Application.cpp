@@ -12,14 +12,14 @@ std::string chemin = resourcePath() + "../../../";
 std::string chemin = "";
 #endif
 
-Application::Application():mWindow(sf::VideoMode(1000, 600), "Mandelbrot"), mFractale(1000, 600), mVitesse(0.6f) ,mVitZoom(1.4f), mFlou(1)
+Application::Application(sf::RenderWindow &appWindow):mWindow(&appWindow),mFractale(1000, 600), mVitesse(0.6f) ,mVitZoom(1.4f), mFlou(1)
 {
-    mWindow.setFramerateLimit(5);
+    mWindow->setFramerateLimit(5);
 }
 
 void Application::run()
 {
-    while (mWindow.isOpen())
+    while (mWindow->isOpen())
     {
         processEvents();
         render();
@@ -29,12 +29,12 @@ void Application::run()
 void Application::processEvents()
 {
     sf::Event event;
-    while (mWindow.pollEvent(event))
+    while (mWindow->pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
-            mWindow.close();
+            mWindow->close();
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-            mWindow.close();
+            mWindow->close();
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up)
             mFractale.move(sf::Vector2f(0, -1*mVitesse));
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down)
@@ -45,15 +45,15 @@ void Application::processEvents()
             mFractale.move(sf::Vector2f(-1*mVitesse, 0));
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F){
             mFlou *= 2;
-            sf::FloatRect visibleArea(0, 0, static_cast<float>(mWindow.getSize().x), static_cast<float>(mWindow.getSize().y) );
-            mWindow.setView(sf::View(visibleArea));
-            mFractale.setSize(mWindow.getSize().x/ mFlou, mWindow.getSize().y/ mFlou);
+            sf::FloatRect visibleArea(0, 0, static_cast<float>(mWindow->getSize().x), static_cast<float>(mWindow->getSize().y) );
+            mWindow->setView(sf::View(visibleArea));
+            mFractale.setSize(mWindow->getSize().x/ mFlou, mWindow->getSize().y/ mFlou);
         }
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R && mFlou > 1){
             mFlou /= 2;
-            sf::FloatRect visibleArea(0, 0, static_cast<float>(mWindow.getSize().x), static_cast<float>(mWindow.getSize().y));
-            mWindow.setView(sf::View(visibleArea));
-            mFractale.setSize(mWindow.getSize().x/ mFlou, mWindow.getSize().y/ mFlou);
+            sf::FloatRect visibleArea(0, 0, static_cast<float>(mWindow->getSize().x), static_cast<float>(mWindow->getSize().y));
+            mWindow->setView(sf::View(visibleArea));
+            mFractale.setSize(mWindow->getSize().x/ mFlou, mWindow->getSize().y/ mFlou);
         }
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Z)
             mFractale.setZoom(mFractale.getZoom()*mVitZoom);
@@ -63,13 +63,13 @@ void Application::processEvents()
             mFractale.getImage().saveToFile(chemin + std::to_string(time(NULL)) + ".png");
         }
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::H) {
-            mFractale.setSize(mWindow.getSize().x * 2, mWindow.getSize().y * 2);
+            mFractale.setSize(mWindow->getSize().x * 2, mWindow->getSize().y * 2);
             mFractale.getImage().saveToFile(chemin + std::to_string(time(NULL)) + ".png");
-            mFractale.setSize(mWindow.getSize().x / mFlou, mWindow.getSize().y / mFlou);
+            mFractale.setSize(mWindow->getSize().x / mFlou, mWindow->getSize().y / mFlou);
         }
         if (event.type == sf::Event::Resized){
             sf::FloatRect visibleArea(0, 0, static_cast<float>(event.size.width), static_cast<float>(event.size.height) );
-            mWindow.setView(sf::View(visibleArea));
+            mWindow->setView(sf::View(visibleArea));
             mFractale.setSize(event.size.width / mFlou, event.size.height / mFlou);
         }
     }
@@ -82,7 +82,7 @@ void Application::render()
     test.loadFromImage(image);
     sf::Sprite sprite(test);
     sprite.setScale(static_cast<float>(mFlou), static_cast<float>(mFlou));
-    mWindow.clear();
-    mWindow.draw(sprite);
-    mWindow.display();
+    mWindow->clear();
+    mWindow->draw(sprite);
+    mWindow->display();
 }
