@@ -7,6 +7,14 @@ Bouton::Bouton(float x,float y,sf::Window &window):mForme(sf::Vector2f(x,y)),mSt
     mForme.setFillColor(sf::Color(50,50,150));
     mForme.setOutlineColor(sf::Color::Black);
     mForme.setOutlineThickness(1.f);
+
+    sf::Font font;
+    if(!font.loadFromFile("police.ttf"))
+    {}
+    mText.setFont(font);
+    mText.setString("Hello");
+    mText.setFillColor(sf::Color::White);
+    mText.setCharacterSize(10);
 }
 
 void Bouton::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -14,6 +22,8 @@ void Bouton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
     states.transform *= getTransform();
     target.draw(mForme,states);
+
+
 }
 
 sf::FloatRect Bouton::getGlobalBounds()

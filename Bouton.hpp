@@ -15,6 +15,7 @@ class Bouton : public sf::Drawable, public sf::Transformable
 
     private:
         sf::RectangleShape mForme;
+        sf::Text mText;
         int mSteps;
         sf::Window *mWindow;
 };
