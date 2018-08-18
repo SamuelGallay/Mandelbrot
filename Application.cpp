@@ -66,6 +66,7 @@ void Application::processEvents()
             mFractale.setSize(mWindow->getSize().x * 2, mWindow->getSize().y * 2);
             mFractale.getImage().saveToFile(chemin + std::to_string(time(NULL)) + ".png");
             mFractale.setSize(mWindow->getSize().x / mFlou, mWindow->getSize().y / mFlou);
+            std::cout<<"image enregistrée";
         }
         if (event.type == sf::Event::Resized){
             sf::FloatRect visibleArea(0, 0, static_cast<float>(event.size.width), static_cast<float>(event.size.height) );
