@@ -2,13 +2,15 @@
 #define BOUTON_HPP
 
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class Bouton : public sf::Drawable, public sf::Transformable
 {
     public:
-        Bouton(float x,float y,sf::Window &window);
+        Bouton(float x,float y,sf::RenderWindow &window);
         sf::FloatRect getGlobalBounds();
         bool Test();
+        void setText(std::string texteDuBouton);
 
     private:
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -17,7 +19,7 @@ class Bouton : public sf::Drawable, public sf::Transformable
         sf::RectangleShape mForme;
         sf::Text mText;
         int mSteps;
-        sf::Window *mWindow;
+        sf::RenderWindow *mWindow;
 };
 
 #endif // BOUTON_HPP
