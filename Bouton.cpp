@@ -9,12 +9,14 @@ Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y
     mForme.setFillColor(sf::Color(50,50,150));
     mForme.setOutlineColor(sf::Color::Black);
     mForme.setOutlineThickness(1.f);
+
     if(!mFont.loadFromFile("police.ttf"))
     {
         std::cout<<"impossible de charger la police de texte";
     }
+
     mText.setFont(mFont);
-    mText.setString("nothing");
+    mText.setString("");
     mText.setFillColor(sf::Color::White);
     mText.setCharacterSize(20);
 }
@@ -68,4 +70,7 @@ bool Bouton::Test()
 void Bouton::setText(std::string texteDuBouton)
 {
     mText.setString(texteDuBouton);
+    sf::FloatRect textSize(mText.getGlobalBounds());
+
+    mText.setPosition(sf::Vector2f (( mForme.getSize().x - textSize.width )/2 , ( mForme.getSize().y - textSize.height )/2));
 }

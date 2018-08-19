@@ -4,6 +4,7 @@ Menu::Menu(sf::RenderWindow &appWindow):mWindow(&appWindow),mCommencer(200.f,100
 {
     mWindow->setFramerateLimit(30);
     mCommencer.setPosition(400.f,250.f);
+    mCommencer.setText("Commencer");
 }
 
 void Menu::run()
