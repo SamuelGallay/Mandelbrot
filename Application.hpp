@@ -3,11 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include "Mandelbrot.hpp"
+#include "Menu.hpp"
 
 class Application
 {
 public:
-    Application(sf::RenderWindow &appWindow);
+    Application();
     void run();
 
 private:
@@ -15,8 +16,9 @@ private:
     void render();
 
 private:
-    sf::RenderWindow *mWindow;
+    sf::RenderWindow mWindow;
     Mandelbrot mFractale;
+    Menu mMenu;
     float mVitesse;
     float mVitZoom;
     int mFlou;

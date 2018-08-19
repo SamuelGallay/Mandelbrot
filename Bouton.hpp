@@ -19,7 +19,7 @@ class Bouton : public sf::Drawable, public sf::Transformable
         sf::RectangleShape mForme;
         sf::Text mText;
         sf::Font mFont;
-        int mSteps;
+        bool isPressed;
         sf::RenderWindow *mWindow;
 };
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y)),mSteps(0),mWindow(&window)
+Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y)),isPressed(false),mWindow(&window)
 {
     mForme.setFillColor(sf::Color(50,50,150));
     mForme.setOutlineColor(sf::Color::Black);
@@ -42,18 +42,19 @@ bool Bouton::Test()
     {
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            mSteps=1;
+            isPressed = true;
             mForme.setFillColor(sf::Color(75,75,150));
         }
 
-        if((sf::Mouse::isButtonPressed(sf::Mouse::Left)==false)&& mSteps == 0)
+        if((sf::Mouse::isButtonPressed(sf::Mouse::Left)==false)&& !isPressed)
         {
             mForme.setFillColor(sf::Color(100,100,150));
         }
 
-        if((sf::Mouse::isButtonPressed(sf::Mouse::Left)==false)&& mSteps == 1)
+        if((sf::Mouse::isButtonPressed(sf::Mouse::Left)==false)&& isPressed)
         {
             mForme.setFillColor(sf::Color(75,75,150));
+            isPressed = false;
             return true;
         }
 
@@ -61,7 +62,7 @@ bool Bouton::Test()
     else
     {
         mForme.setFillColor(sf::Color(0,0,255));
-        mSteps=0;
+        isPressed = false;
     }
     return false;
 }

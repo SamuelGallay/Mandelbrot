@@ -15,6 +15,7 @@ Menu::Menu(sf::RenderWindow &appWindow):mWindow(&appWindow),isOk(false)
 
 void Menu::run()
 {
+    isOk=false;
     while(mWindow->isOpen()&&!isOk)
     {
         processEvents();
