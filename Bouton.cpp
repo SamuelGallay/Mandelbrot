@@ -2,33 +2,30 @@
 #include "iostream"
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <iostream>
 
 Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y)),mSteps(0),mWindow(&window)
 {
     mForme.setFillColor(sf::Color(50,50,150));
     mForme.setOutlineColor(sf::Color::Black);
     mForme.setOutlineThickness(1.f);
-
-    sf::Font font;
-    if(!font.loadFromFile("police.ttf"))
+    if(!mFont.loadFromFile("police.ttf"))
     {
         std::cout<<"impossible de charger la police de texte";
     }
-    //impossible de draw le texte
-    mText.setPosition(x,y);
-    mText.setFont(font);
+    mText.setFont(mFont);
     mText.setString("nothing");
     mText.setFillColor(sf::Color::White);
-    mText.setCharacterSize(10);
+    mText.setCharacterSize(20);
 }
 
 void Bouton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    std::cout<<"ok";
 
     states.transform *= getTransform();
     target.draw(mForme,states);
-
-
+    target.draw(mText,states);
 }
 
 sf::FloatRect Bouton::getGlobalBounds()
