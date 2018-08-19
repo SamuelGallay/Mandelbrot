@@ -17,8 +17,10 @@ class Menu
 
     private:
         sf::RenderWindow *mWindow;
-        Bouton mCommencer;
         bool isOk;
+        Bouton mCommencer;
+        Bouton mOption;
+
 };
 
 #endif // MENU_H

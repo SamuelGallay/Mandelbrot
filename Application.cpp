@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <ctime>
+#include "Menu.hpp"
 
 #if SAM_XCODE
 #include "ResourcePath.hpp"
@@ -34,7 +35,12 @@ void Application::processEvents()
         if (event.type == sf::Event::Closed)
             mWindow->close();
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-            mWindow->close();
+        {
+            Menu menu(*mWindow);
+            menu.run();
+        }
+
+
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up)
             mFractale.move(sf::Vector2f(0, -1*mVitesse));
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down)

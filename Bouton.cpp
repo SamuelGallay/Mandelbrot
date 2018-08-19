@@ -23,8 +23,6 @@ Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y
 
 void Bouton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    std::cout<<"ok";
-
     states.transform *= getTransform();
     target.draw(mForme,states);
     target.draw(mText,states);
@@ -45,16 +43,17 @@ bool Bouton::Test()
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             mSteps=1;
-            mForme.setFillColor(sf::Color(255,0,0));
+            mForme.setFillColor(sf::Color(75,75,150));
         }
 
         if((sf::Mouse::isButtonPressed(sf::Mouse::Left)==false)&& mSteps == 0)
         {
-            mForme.setFillColor(sf::Color(0,255,0));
+            mForme.setFillColor(sf::Color(100,100,150));
         }
 
         if((sf::Mouse::isButtonPressed(sf::Mouse::Left)==false)&& mSteps == 1)
         {
+            mForme.setFillColor(sf::Color(75,75,150));
             return true;
         }
 

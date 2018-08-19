@@ -6,9 +6,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 600), "Fractales");
     Menu acceuil(window);
     acceuil.run();
-    if(acceuil.getOk())
-    {
-        Application objet(window);
-        objet.run();
-    }
+
+    Application fractale(window);
+    fractale.run();
 }
