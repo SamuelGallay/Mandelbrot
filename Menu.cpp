@@ -1,11 +1,9 @@
 #include "Menu.hpp"
 
-Menu::Menu(sf::RenderWindow &appWindow):mWindow(&appWindow),isOk(false)
+Menu::Menu(sf::RenderWindow &appWindow , Option &MenuOption):mWindow(&appWindow),mMenuOption(&MenuOption),isOk(false)
 ,mCommencer(200.f,100.f,*mWindow)
 ,mOption(200.f,100.f,*mWindow)
 {
-    mWindow->setFramerateLimit(30);
-
     mCommencer.setPosition(400.f,250.f);
     mCommencer.setText("Commencer");
 
@@ -34,10 +32,10 @@ void Menu::processEvents()
             mWindow->close();
     }
     if(mCommencer.Test())
-    {
         isOk=true;
-    }
-    mOption.Test();
+    if(mOption.Test())
+        mMenuOption->run();
+
 }
 
 void Menu::render()

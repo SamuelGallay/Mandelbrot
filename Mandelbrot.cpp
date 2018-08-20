@@ -14,7 +14,7 @@ Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
     liste.push_back(sf::Color::Yellow);
     liste.push_back(sf::Color::Magenta);
     liste.push_back(sf::Color::Red);
-    
+
     setSize(width, height);
 }
 
@@ -48,7 +48,7 @@ void Mandelbrot::update()
                                    (static_cast<double>(ordonnee) / static_cast<double>(rendu.getSize().y) * vue.height/zoom + vue.top - vue.height/ zoom/2) );
             std::complex<double> z(0.0, 0.0);
             unsigned int i = 0;
-            
+
             while (std::norm(z) < 4 && i < iterMax) {
                 z = z * z + c;
                 i++;
@@ -58,25 +58,25 @@ void Mandelbrot::update()
     }
     render();
 }
- 
+
 void Mandelbrot::render(){
     assert(liste.size() >= 2);
-    
+
     for (unsigned int abscisse = 0; abscisse < rendu.getSize().x; abscisse++)
     {
         for (unsigned int ordonnee = 0; ordonnee < rendu.getSize().y; ordonnee++)
         {
             unsigned int i = iterations[abscisse * rendu.getSize().y + ordonnee];
             float distAbs = static_cast<float>(i)/static_cast<float>(iterMax);
-            
+
             int depart = liste.size() - 1;
             int arrivee = 0;
-            
+
             while (static_cast<float>(depart)/static_cast<float>(liste.size()-1) > distAbs) {depart--;}
             while (static_cast<float>(arrivee)/static_cast<float>(liste.size()-1) < distAbs) {arrivee++;}
-            
+
             float distRel = ( distAbs - static_cast<float>(depart)/static_cast<float>(liste.size()-1) ) * (liste.size()-1);
-            
+
             sf::Color couleur;
             if (i == iterMax)
                 couleur = sf::Color::Black;

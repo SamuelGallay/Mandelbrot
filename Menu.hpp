@@ -3,11 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include "Bouton.hpp"
+#include "Option.h"
 
 class Menu
 {
     public:
-        Menu(sf::RenderWindow &appWindow);
+        Menu(sf::RenderWindow &appWindow, Option &MenuOption);
         void run();
         bool getOk();
 
@@ -17,6 +18,7 @@ class Menu
 
     private:
         sf::RenderWindow *mWindow;
+        Option *mMenuOption;
         bool isOk;
         Bouton mCommencer;
         Bouton mOption;

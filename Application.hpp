@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Mandelbrot.hpp"
 #include "Menu.hpp"
+#include "Option.h"
 
 class Application
 {
@@ -18,6 +19,7 @@ private:
 private:
     sf::RenderWindow mWindow;
     Mandelbrot mFractale;
+    Option mOption;
     Menu mMenu;
     float mVitesse;
     float mVitZoom;
