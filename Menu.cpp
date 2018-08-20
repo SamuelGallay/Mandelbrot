@@ -50,3 +50,4 @@ bool Menu::getOk()
 {
     return isOk;
 }
+
