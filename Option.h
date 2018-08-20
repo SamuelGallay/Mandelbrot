@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "Bouton.hpp"
 #include "Mandelbrot.hpp"
+#include "TextBox.h"
 
 class Option
 {
@@ -19,6 +20,8 @@ class Option
         Mandelbrot* mMandelbrot;
         bool isRunning;
         Bouton mAddColor;
+        TextBox mRed;
+
 
 };
 

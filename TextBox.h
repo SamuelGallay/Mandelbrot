@@ -1,8 +1,8 @@
 #ifndef TEXTBOX_H
 #define TEXTBOX_H
 
-#include <string>
 #include "SFML/Graphics.hpp"
+#include <string>
 
 class TextBox : public sf::Drawable, public sf::Transformable
 {
@@ -10,7 +10,7 @@ class TextBox : public sf::Drawable, public sf::Transformable
         TextBox(sf::RenderWindow &Window);
         sf::FloatRect getGlobalBounds();
         void update();
-        void write();
+        void write(std::string Text);
 
     private:
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

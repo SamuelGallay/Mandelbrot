@@ -18,6 +18,8 @@ set(
 	Application.cpp
 	Menu.cpp
 	Bouton.cpp
+	Option.cpp
+	TextBox.cpp
 )
 
 add_executable(Mandelbrot ${SOURCES})

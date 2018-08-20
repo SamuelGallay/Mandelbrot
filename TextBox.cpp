@@ -37,11 +37,11 @@ void TextBox::update()
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             isSelect = true;
-            mBox.setFillColor(sf::Color::White);
+            mBox.setOutlineColor(sf::Color::White);
         }
         if(!isSelect)
         {
-            mBox.setFillColor(sf::Color(100,100,100));
+            mBox.setOutlineColor(sf::Color(100,100,100));
         }
 
     }
@@ -50,31 +50,22 @@ void TextBox::update()
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             isSelect = false;
-            mBox.setFillColor(sf::Color(50,50,50));
+            mBox.setOutlineColor(sf::Color(50,50,50));
         }
     }
 
     if(isSelect)
     {
-        write();
+        write("Hhi");
     }
 
 }
 
-void TextBox::write()
+void TextBox::write(std::string Text)
 {
-    sf::Event event;
-    while(mWindow->pollEvent(event))
-    {
-        if(event.type == sf::Event::TextEntered)
-        {
-            if(event.text.unicode >47 && event.text.unicode <57)
-            {
-                mText.setString(event.text.unicode);
-            }
-        }
-    }
-
+    mText.setString(Text);
+    sf::FloatRect textSize(mText.getGlobalBounds());
+    mText.setPosition(sf::Vector2f (( mBox.getSize().x - textSize.width )/2 , ( mBox.getSize().y - textSize.height )/2));
 }
 
 //48//57

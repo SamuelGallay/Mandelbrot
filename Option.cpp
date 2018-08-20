@@ -2,10 +2,12 @@
 
 Option::Option(sf::RenderWindow &Window , Mandelbrot &Fractales):
 mWindow(&Window),mMandelbrot(&Fractales),isRunning(true)
-,mAddColor(200.f,150.f,*mWindow)
+,mAddColor(200.f,150.f,*mWindow),mRed(*mWindow)
 {
     mAddColor.setText("+Couleur");
     mAddColor.setPosition(400.f,250.f);
+
+    mRed.setPosition(10.f,10.f);
 }
 
 void Option::run()
@@ -29,12 +31,14 @@ void Option::processEvent()
             isRunning = false;
     }
     mAddColor.Test();
+    mRed.update();
 }
 
 void Option::render()
 {
     mWindow->clear();
     mWindow->draw(mAddColor);
+    mWindow->draw(mRed);
     mWindow->display();
 }
 
