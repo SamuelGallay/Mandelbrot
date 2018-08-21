@@ -89,3 +89,20 @@ void Mandelbrot::render(){
         }
     }
 }
+
+void Mandelbrot::move(sf::Vector2f direction){
+    vue.left += direction.x / zoom;
+    vue.top += direction.y / zoom;
+    update();
+}
+
+void Mandelbrot::setZoom(double ratio){
+    zoom = ratio;
+    iterMax = static_cast<unsigned int>(100*std::log(ratio+1));
+    update();
+}
+
+void setColors(std::vector<sf::Color> newList){
+	liste = newList;
+	render();
+}
