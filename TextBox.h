@@ -11,6 +11,7 @@ class TextBox : public sf::Drawable, public sf::Transformable
         sf::FloatRect getGlobalBounds();
         void update(sf::Event &event);
         void write(std::string Text);
+        std::string getText();
 
     private:
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

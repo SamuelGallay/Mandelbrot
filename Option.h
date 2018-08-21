@@ -4,6 +4,8 @@
 #include "Bouton.hpp"
 #include "Mandelbrot.hpp"
 #include "TextBox.h"
+#include <string>
+#include <sstream>
 
 class Option
 {

@@ -1,5 +1,4 @@
 #include "TextBox.h"
-#include "iostream"
 
 TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,12.f)),isSelect(false),mString("")
 {
@@ -68,6 +67,7 @@ void TextBox::update(sf::Event &event)
 
 
         }
+        //problème dans cette condition
         if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::BackSpace)
         {
             if(mString.size()>0)
@@ -86,4 +86,8 @@ void TextBox::write(std::string Text)
     mText.setPosition(sf::Vector2f (( mBox.getSize().x - textSize.width )/2 , ( mBox.getSize().y - textSize.height )/2));
 }
 
+std::string TextBox::getText()
+{
+    return mString;
+}
 //48//57

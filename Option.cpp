@@ -30,8 +30,16 @@ void Option::processEvent()
         if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
             isRunning = false;
     }
-    mAddColor.Test();
     mRed.update(event);
+    std::string colorStrRed = mRed.getText();
+    std::stringstream strToInt (colorStrRed);
+    int colorRed(0);
+    strToInt >> colorRed;
+    if(colorRed>255)
+        mRed.write("255");
+
+    mAddColor.Test();
+
 }
 
 void Option::render()
