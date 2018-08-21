@@ -1,10 +1,14 @@
 #include "TextBox.h"
+#include "police.hpp"
 
 TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,12.f)),isSelect(false),mString("")
 {
-    if(!mFont.loadFromFile("police.ttf"))
-    {}
-
+    if(!mFont.loadFromMemory( policeData, sizeof(policeData) ))
+    {
+        std::cout<<"impossible de charger la police de texte";
+    }
+	
+	
     mText.setFont(mFont);
     mText.setCharacterSize(10);
     mText.setFillColor(sf::Color::White);
