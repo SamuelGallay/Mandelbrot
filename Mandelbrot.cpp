@@ -102,7 +102,7 @@ void Mandelbrot::setZoom(double ratio){
     update();
 }
 
-void setColors(std::vector<sf::Color> newList){
+void Mandelbrot::setColors(std::vector<sf::Color> newList){
 	liste = newList;
 	render();
 }
