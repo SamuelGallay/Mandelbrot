@@ -1,8 +1,10 @@
-#include "Bouton.hpp"
-#include "iostream"
-#include <SFML/Graphics.hpp>
-#include <string>
 #include <iostream>
+#include <string>
+
+#include <SFML/Graphics.hpp>
+
+#include "Bouton.hpp"
+#include "police.hpp"
 
 Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y)),isPressed(false),mWindow(&window)
 {
@@ -10,7 +12,7 @@ Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y
     mForme.setOutlineColor(sf::Color::Black);
     mForme.setOutlineThickness(1.f);
 
-    if(!mFont.loadFromFile("police.ttf"))
+    if(!mFont.loadFromMemory( policeData, sizeof(policeData) ))
     {
         std::cout<<"impossible de charger la police de texte";
     }
