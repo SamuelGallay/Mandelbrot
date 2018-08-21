@@ -1,6 +1,7 @@
 #include "TextBox.h"
+#include "iostream"
 
-TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,12.f)),isSelect(false)
+TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,12.f)),isSelect(false),mString("")
 {
     if(!mFont.loadFromFile("police.ttf"))
     {}
@@ -27,7 +28,7 @@ sf::FloatRect TextBox::getGlobalBounds()
     return mBox.getGlobalBounds();
 }
 
-void TextBox::update()
+void TextBox::update(sf::Event &event)
 {
     sf::Vector2f mousePosition(sf::Mouse::getPosition(*mWindow));
     mousePosition-=getPosition();
@@ -53,12 +54,29 @@ void TextBox::update()
             mBox.setOutlineColor(sf::Color(50,50,50));
         }
     }
-
     if(isSelect)
     {
-        write("Hhi");
-    }
+        if(event.text.unicode>47 && event.text.unicode<58)
+        {
+            char number (event.text.unicode);
+            if(mString.size()<3)
+            {
+                mString+=number;
+                write(mString);
+            }
 
+
+
+        }
+        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::BackSpace)
+        {
+            if(mString.size()>0)
+            {
+                mString.pop_back();
+            }
+
+        }
+    }
 }
 
 void TextBox::write(std::string Text)

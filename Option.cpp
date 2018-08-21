@@ -27,11 +27,11 @@ void Option::processEvent()
     {
         if(event.type == sf::Event::Closed)
             mWindow->close();
-        if(event.type == sf::Event::KeyPressed || event.key.code == sf::Keyboard::Escape)
+        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
             isRunning = false;
     }
     mAddColor.Test();
-    mRed.update();
+    mRed.update(event);
 }
 
 void Option::render()

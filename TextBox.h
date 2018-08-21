@@ -9,7 +9,7 @@ class TextBox : public sf::Drawable, public sf::Transformable
     public:
         TextBox(sf::RenderWindow &Window);
         sf::FloatRect getGlobalBounds();
-        void update();
+        void update(sf::Event &event);
         void write(std::string Text);
 
     private:
@@ -21,6 +21,7 @@ class TextBox : public sf::Drawable, public sf::Transformable
         sf::Text mText;
         sf::RectangleShape mBox;
         bool isSelect;
+        std::string mString;
 };
 
 #endif // TEXTBOX_H
