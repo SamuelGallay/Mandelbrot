@@ -13,22 +13,20 @@ class Mandelbrot
 public:
     Mandelbrot(unsigned int width, unsigned int height);
     void setSize(unsigned int width, unsigned int height);
-    void setZoom(double ratio){
-        zoom = ratio;
-        iterMax = static_cast<unsigned int>(100*std::log(ratio+1));
-        update();
-    }
-    void move(sf::Vector2f direction){
-        vue.left += direction.x / zoom;
-        vue.top += direction.y / zoom;
-        update();
-    }
+    void setZoom(double ratio);
+    void move(sf::Vector2f direction);
+	void setColors(std::vector<sf::Color> newList);
+	
     double getZoom(){
         return zoom;
     }
     sf::Image getImage(){
         return rendu;
     }
+	std::vector<sf::Color> getColors(){
+		return liste;
+	}
+	
 
 private:
     std::vector<sf::Color> liste;
