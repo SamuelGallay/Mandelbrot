@@ -4,10 +4,10 @@ Option::Option(sf::RenderWindow &Window , Mandelbrot &Fractales):
 mWindow(&Window),mMandelbrot(&Fractales),isRunning(true)
 ,mAddColor(200.f,150.f,*mWindow),mRed(*mWindow)
 {
-    mAddColor.setText("+Couleur");
+    mAddColor.setText("AddThisColor");
     mAddColor.setPosition(400.f,250.f);
 
-    mRed.setPosition(10.f,10.f);
+    mRed.setPosition(100.f,200.f);
 }
 
 void Option::run()
@@ -31,11 +31,8 @@ void Option::processEvent()
             isRunning = false;
     }
     mRed.update(event);
-    std::string colorStrRed = mRed.getText();
-    std::stringstream strToInt (colorStrRed);
-    int colorRed(0);
-    strToInt >> colorRed;
-    if(colorRed>255)
+
+    if(stringToInt(mRed.getText())>255)
         mRed.write("255");
 
     mAddColor.Test();
@@ -50,4 +47,11 @@ void Option::render()
     mWindow->display();
 }
 
+int Option::stringToInt(std::string theString)
+{
+    std::stringstream strToInt (theString);
+    int theInt(0);
+    strToInt >> theInt;
 
+    return theInt;
+}
