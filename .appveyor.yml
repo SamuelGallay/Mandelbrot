@@ -10,9 +10,6 @@ configuration:
 
 shallow_clone: true
 
-install:
-  - git submodule update --init --recursive
-
 before_build:
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install git clone https://github.com/SFML/SFML.git    
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install cd SFML
