@@ -4,7 +4,7 @@
 
 #include "police.hpp"
 
-TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,12.f)),isSelect(false),mString("")
+TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,15.f)),isSelect(false),mString("")
 {
     if(!mFont.loadFromMemory( policeData, sizeof(policeData) ))
     {
@@ -51,9 +51,13 @@ void TextBox::update(sf::Event &event)
     }
     else
     {
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        if(isSelect && sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             isSelect = false;
+            mBox.setOutlineColor(sf::Color(50,50,50));
+        }
+        if(!isSelect)
+        {
             mBox.setOutlineColor(sf::Color(50,50,50));
         }
     }

@@ -16,6 +16,7 @@ class Option
     private:
         void processEvent();
         void render();
+        int stringToInt(std::string theString);
 
     private:
         sf::RenderWindow* mWindow;
