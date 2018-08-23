@@ -2,8 +2,9 @@
 #define MENU_HPP
 
 #include <SFML/Graphics.hpp>
+
 #include "Bouton.hpp"
-#include "Option.h"
+#include "Option.hpp"
 
 class Menu
 {
@@ -22,7 +23,6 @@ class Menu
         bool isOk;
         Bouton mCommencer;
         Bouton mOption;
-
 };
 
-#endif // MENU_H
+#endif // MENU_HPP

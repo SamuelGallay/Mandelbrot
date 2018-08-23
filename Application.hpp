@@ -2,9 +2,10 @@
 #define APPLICATION_HPP
 
 #include <SFML/Graphics.hpp>
+
 #include "Mandelbrot.hpp"
 #include "Menu.hpp"
-#include "Option.h"
+#include "Option.hpp"
 
 class Application
 {

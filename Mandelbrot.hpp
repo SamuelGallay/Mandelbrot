@@ -1,12 +1,9 @@
 #ifndef Mandelbrot_hpp
 #define Mandelbrot_hpp
 
-#include <iostream>
-#include <complex>
-#include <vector>
-#include <cmath>
+#include <SFML/Graphics.hpp>
 
-#include "SFML/Graphics.hpp"
+#include <vector>
 
 class Mandelbrot
 {

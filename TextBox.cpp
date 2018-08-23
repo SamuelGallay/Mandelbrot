@@ -1,5 +1,7 @@
+#include "TextBox.hpp"
+
 #include <iostream>
-#include "TextBox.h"
+
 #include "police.hpp"
 
 TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,12.f)),isSelect(false),mString("")
@@ -8,8 +10,6 @@ TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50
     {
         std::cout<<"impossible de charger la police de texte";
     }
-	
-	
     mText.setFont(mFont);
     mText.setCharacterSize(10);
     mText.setFillColor(sf::Color::White);
@@ -17,7 +17,6 @@ TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50
     mBox.setFillColor(sf::Color::Black);
     mBox.setOutlineColor(sf::Color(50,50,50));
     mBox.setOutlineThickness(1);
-
 }
 
 void TextBox::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -68,9 +67,6 @@ void TextBox::update(sf::Event &event)
                 mString+=number;
                 write(mString);
             }
-
-
-
         }
         //problème dans cette condition
         if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::BackSpace)
@@ -79,7 +75,6 @@ void TextBox::update(sf::Event &event)
             {
                 mString.pop_back();
             }
-
         }
     }
 }
@@ -95,4 +90,3 @@ std::string TextBox::getText()
 {
     return mString;
 }
-//48//57

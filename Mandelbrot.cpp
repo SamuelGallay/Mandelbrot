@@ -1,5 +1,9 @@
 #include "Mandelbrot.hpp"
+
 #include <cassert>
+#include <iostream>
+#include <complex>
+#include <cmath>
 
 Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
 {

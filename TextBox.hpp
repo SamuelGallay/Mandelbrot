@@ -1,7 +1,8 @@
-#ifndef TEXTBOX_H
-#define TEXTBOX_H
+#ifndef TEXTBOX_HPP
+#define TEXTBOX_HPP
 
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
+
 #include <string>
 
 class TextBox : public sf::Drawable, public sf::Transformable

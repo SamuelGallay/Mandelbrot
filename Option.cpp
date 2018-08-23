@@ -1,4 +1,7 @@
-#include "Option.h"
+#include "Option.hpp"
+
+#include <string>
+#include <sstream>
 
 Option::Option(sf::RenderWindow &Window , Mandelbrot &Fractales):
 mWindow(&Window),mMandelbrot(&Fractales),isRunning(true)

@@ -2,6 +2,7 @@
 #define BOUTON_HPP
 
 #include <SFML/Graphics.hpp>
+
 #include <string>
 
 class Bouton : public sf::Drawable, public sf::Transformable

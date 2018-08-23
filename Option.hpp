@@ -1,11 +1,11 @@
 #ifndef OPTION_HPP
 #define OPTION_HPP
-#include "SFML/Graphics.hpp"
+
+#include <SFML/Graphics.hpp>
+
 #include "Bouton.hpp"
 #include "Mandelbrot.hpp"
-#include "TextBox.h"
-#include <string>
-#include <sstream>
+#include "TextBox.hpp"
 
 class Option
 {
@@ -23,8 +23,6 @@ class Option
         bool isRunning;
         Bouton mAddColor;
         TextBox mRed;
-
-
 };
 
 #endif // OPTION_HPP

@@ -1,10 +1,9 @@
 #include "Application.hpp"
-#include "Mandelbrot.hpp"
 
 #include <SFML/Graphics.hpp>
+
 #include <string>
 #include <ctime>
-#include "Menu.hpp"
 
 #if SAM_XCODE
 #include "ResourcePath.hpp"

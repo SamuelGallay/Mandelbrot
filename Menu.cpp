@@ -19,7 +19,6 @@ void Menu::run()
         processEvents();
         render();
     }
-
 }
 
 void Menu::processEvents()
@@ -35,7 +34,6 @@ void Menu::processEvents()
         isOk=true;
     if(mOption.Test())
         mMenuOption->run();
-
 }
 
 void Menu::render()
