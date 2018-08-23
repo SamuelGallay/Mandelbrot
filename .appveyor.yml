@@ -8,6 +8,8 @@ platform:
 configuration:
   - Release
 
+shallow_clone: true
+
 install:
   - git submodule update --init --recursive
 
