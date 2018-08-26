@@ -1,5 +1,7 @@
 #include "Mandelbrot.hpp"
 #include <cassert>
+#include <gmp.h>
+#include <gmpxx.h>
 
 Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
 {

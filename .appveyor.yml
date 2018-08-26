@@ -3,13 +3,16 @@ version: '{build}'
 image: Visual Studio 2017
 
 platform:
-  - Win32
+  - x64
 
 configuration:
   - Release
 
+shallow_clone: true
+
 install:
-  - git submodule update --init --recursive
+  - vcpkg install mpir:x64-windows-static
+  - vcpkg integrate install
 
 before_build:
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install git clone https://github.com/SFML/SFML.git    
@@ -32,10 +35,11 @@ build:
 
 artifacts:
   - path: install\Mandelbrot.exe
-    name: mandelbrot-windows-32bits
+    name: mandelbrot-windows-64bits
 
 cache:
-  - C:\projects\mandelbrot\SFML\install -> .appveyor.yml
+  - C:\projects\mandelbrot\SFML\install
+  - c:\tools\vcpkg\installed\
 
 deploy:
   provider: GitHub
