@@ -67,7 +67,7 @@ int main(int, char const**)
                 fractale.setSize(window.getSize().x / flou, window.getSize().y / flou);
             }
             if (event.type == sf::Event::Resized){
-	      sf::FloatRect visibleArea(0.f, 0.f, (float event.size.width, (float) event.size.height);
+	      sf::FloatRect visibleArea(0.f, 0.f, (float) event.size.width, (float) event.size.height);
 	        window.setView(sf::View(visibleArea));
                 fractale.setSize(event.size.width / flou, event.size.height / flou);
             }
