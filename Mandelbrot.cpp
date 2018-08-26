@@ -26,7 +26,7 @@ Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
     const std::string number = "3.141592653589793238462643383279502884197169399375105820974944592307816406286";
     mpf_class pi(number);
 
-    std::cout << std::setprecision(80) << pi << std::endl;
+    //std::cout << std::setprecision(80) << pi << std::endl;
 }
 
 void Mandelbrot::setSize(unsigned int width, unsigned int height)
