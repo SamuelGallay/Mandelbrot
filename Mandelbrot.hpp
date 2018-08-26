@@ -13,7 +13,7 @@ public:
     void setSize(unsigned int width, unsigned int height);
     void setZoom(double ratio){
         zoom = ratio;
-        iterMax = 100*std::log(ratio+1);
+        iterMax = (int)(100*std::log(ratio+1));
         update();
     }
     void move(sf::Vector2f direction){
