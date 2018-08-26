@@ -20,14 +20,14 @@ before_build:
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install mkdir installTemp
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install mkdir build
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install cd build
-  - IF NOT EXIST C:\projects\mandelbrot\SFML\install cmake -DCMAKE_INSTALL_PREFIX=../installTemp -DBUILD_SHARED_LIBS=FALSE -DSFML_USE_STATIC_STD_LIBS=TRUE ..
+  - IF NOT EXIST C:\projects\mandelbrot\SFML\install cmake -G"Visual Studio 15 Win64" -DCMAKE_INSTALL_PREFIX=../installTemp -DBUILD_SHARED_LIBS=FALSE -DSFML_USE_STATIC_STD_LIBS=TRUE ..
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install msbuild INSTALL.vcxproj
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install cd ../../
   - IF NOT EXIST C:\projects\mandelbrot\SFML\install mv C:\projects\mandelbrot\SFML\installTemp C:\projects\mandelbrot\SFML\install
   - mkdir build
   - mkdir install
   - cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=../install -DSFML_DIR="C:\projects\mandelbrot\SFML\install\lib\cmake\SFML" -DSFML_STATIC_LIBRARIES=TRUE ..
+  - cmake -G"Visual Studio 15 Win64" -DCMAKE_INSTALL_PREFIX=../install -DSFML_DIR="C:\projects\mandelbrot\SFML\install\lib\cmake\SFML" -DSFML_STATIC_LIBRARIES=TRUE ..
   - cd ..
 
 build:
@@ -38,7 +38,7 @@ artifacts:
     name: mandelbrot-windows-64bits
 
 cache:
-  - C:\projects\mandelbrot\SFML\install
+  - C:\projects\mandelbrot\SFML\install <- .appveyor.yml
   - c:\tools\vcpkg\installed\ <- .appveyor.yml
 
 deploy:
