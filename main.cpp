@@ -21,8 +21,8 @@ int main(int, char const**)
     std::string chemin = "";
     #endif
     
-    float vitesse = 0.6; //déplacement
-    float vitZoom = 1.4;
+    float vitesse = 0.6f; //déplacement
+    float vitZoom = 1.4f;
     
     int flou = 1;
     while (window.isOpen())
@@ -44,13 +44,13 @@ int main(int, char const**)
                 fractale.move(sf::Vector2f(-1*vitesse, 0));
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F){
                 flou *= 2;
-                sf::FloatRect visibleArea(0, 0, (int) window.getSize().x, (int) window.getSize().y);
+                sf::FloatRect visibleArea(0.f, 0.f, window.getSize().x, window.getSize().y);
                 window.setView(sf::View(visibleArea));
                 fractale.setSize(window.getSize().x/ flou, window.getSize().y/ flou);
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R && flou > 1){
                 flou /= 2;
-                sf::FloatRect visibleArea(0, 0, (int) window.getSize().x, (int) window.getSize().y);
+                sf::FloatRect visibleArea(0.f, 0.f, window.getSize().x, window.getSize().y);
                 window.setView(sf::View(visibleArea));
                 fractale.setSize(window.getSize().x/ flou, window.getSize().y/ flou);
             }
@@ -67,7 +67,7 @@ int main(int, char const**)
                 fractale.setSize(window.getSize().x / flou, window.getSize().y / flou);
             }
             if (event.type == sf::Event::Resized){
-	        sf::FloatRect visibleArea(0, 0, (int) event.size.width, (int) event.size.height);
+	        sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
 	        window.setView(sf::View(visibleArea));
                 fractale.setSize(event.size.width / flou, event.size.height / flou);
             }

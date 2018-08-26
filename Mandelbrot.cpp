@@ -80,7 +80,7 @@ void Mandelbrot::render(){
             unsigned int i = iterations[abscisse * rendu.getSize().y + ordonnee];
             float distAbs = static_cast<float>(i)/static_cast<float>(iterMax);
             
-            int depart = liste.size() - 1;
+            int depart = (int) liste.size() - 1;
             int arrivee = 0;
             
             while (static_cast<float>(depart)/static_cast<float>(liste.size()-1) > distAbs) {depart--;}
