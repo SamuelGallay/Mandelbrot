@@ -38,8 +38,8 @@ artifacts:
     name: mandelbrot-windows-64bits
 
 cache:
-  - C:\projects\mandelbrot\SFML\install <- .appveyor.yml
-  - c:\tools\vcpkg\installed\ <- .appveyor.yml
+  - C:\projects\mandelbrot\SFML\install
+  - c:\tools\vcpkg\installed\
 
 deploy:
   provider: GitHub
