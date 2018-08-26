@@ -1,8 +1,6 @@
 #ifndef Mandelbrot_hpp
 #define Mandelbrot_hpp
 
-#include <iostream>
-#include <complex>
 #include <vector>
 #include <cmath>
 

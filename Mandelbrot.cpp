@@ -1,5 +1,8 @@
 #include "Mandelbrot.hpp"
 #include <cassert>
+#include <iostream>
+#include <complex>
+#include <string>
 #include <gmp.h>
 #include <gmpxx.h>
 
@@ -18,6 +21,11 @@ Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
     liste.push_back(sf::Color::Red);
     
     setSize(width, height);
+
+    const std::string number = "3.141592653589793238462643383279502884197169399375105820974944592307816406286";
+    mpf_class pi(number);
+
+    std::cout << std::setprecision(80) << pi << endl;
 }
 
 void Mandelbrot::setSize(unsigned int width, unsigned int height)
