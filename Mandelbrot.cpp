@@ -2,7 +2,6 @@
 #include <cassert>
 #include <iostream>
 #include <string>
-#include <iomanip>
 #include <gmp.h>
 #include <gmpxx.h>
 
@@ -22,11 +21,6 @@ Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
     liste.push_back(sf::Color::Red);
     
     setSize(width, height);
-    
-    const std::string number = "3.141592653589793238462643383279502884197169399375105820974944592307816406286";
-    mpf_class pi(number, 200);
-    
-    std::cout << std::setprecision(200) << pi << std::endl;
 }
 
 void Mandelbrot::setSize(unsigned int width, unsigned int height)
@@ -49,6 +43,9 @@ void Mandelbrot::setSize(unsigned int width, unsigned int height)
 
 std::vector< std::complex<double> > Mandelbrot::basePoint(std::complex<double> c)
 {
+    double xn_r = c.real();
+    double xn_i = c.imag();
+    
     std::vector< std::complex<double> > table;
     std::complex<double> z(0.0, 0.0);
     
