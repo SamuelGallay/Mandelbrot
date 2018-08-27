@@ -1,7 +1,6 @@
 #include "Mandelbrot.hpp"
 #include <cassert>
 #include <iostream>
-#include <complex>
 #include <string>
 #include <iomanip>
 #include <gmp.h>
@@ -24,9 +23,9 @@ Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
     setSize(width, height);
 
     const std::string number = "3.141592653589793238462643383279502884197169399375105820974944592307816406286";
-    mpf_class pi(number);
+    mpf_class pi(number, 200);
 
-    //std::cout << std::setprecision(80) << pi << std::endl;
+    std::cout << std::setprecision(200) << pi << std::endl;
 }
 
 void Mandelbrot::setSize(unsigned int width, unsigned int height)
@@ -47,21 +46,43 @@ void Mandelbrot::setSize(unsigned int width, unsigned int height)
     }
 }
 
+std::vector< std::complex<double> > Mandelbrot::basePoint(std::complex<double> c)
+{
+    std::vector< std::complex<double> > table;
+    std::complex<double> z(0.0, 0.0);
+    
+    for(unsigned int i=0; i<iterMax; i++){
+        table.push_back(z);
+        z = z * z + c;
+        if(std::norm(z) > 4)
+            return table;
+    }
+    
+    return table;
+}
+
 void Mandelbrot::update()
 {
     std::cout << "Zoom : " << zoom << std::endl;
     std::cout << "IterMax : " << iterMax << std::endl;
+    
+    std::complex<double> start  ( (0.5 * vue.width/zoom + vue.left - vue.width/ zoom/2) ,
+                            (0.5 * vue.height/zoom + vue.top - vue.height/ zoom/2) );
+    std::vector< std::complex<double> > table = basePoint(start);
+    std::cout << table.size() << "/" << iterMax << std::endl;
+    
     for (unsigned int abscisse = 0; abscisse < rendu.getSize().x; abscisse++)
     {
         for (unsigned int ordonnee = 0; ordonnee < rendu.getSize().y; ordonnee++)
         {
             std::complex<double> c ( (static_cast<double>(abscisse) / static_cast<double>(rendu.getSize().x)  * vue.width/zoom + vue.left - vue.width/ zoom/2) ,
                                    (static_cast<double>(ordonnee) / static_cast<double>(rendu.getSize().y) * vue.height/zoom + vue.top - vue.height/ zoom/2) );
-            std::complex<double> z(0.0, 0.0);
+            std::complex<double> d0 = c - start;
+            std::complex<double> dn = d0;
             unsigned int i = 0;
             
-            while (std::norm(z) < 4 && i < iterMax) {
-                z = z * z + c;
+            while (std::norm(dn + table[i]) < 1024 && i < table.size()) {
+                dn = (table[i+1] + table[i+1])*dn + dn*dn + d0;
                 i++;
             }
             iterations[abscisse * rendu.getSize().y + ordonnee] = i;

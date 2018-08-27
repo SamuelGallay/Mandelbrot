@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cmath>
+#include <complex>
 
 #include "SFML/Graphics.hpp"
 
@@ -11,6 +12,7 @@ class Mandelbrot
 public:
     Mandelbrot(unsigned int width, unsigned int height);
     void setSize(unsigned int width, unsigned int height);
+    std::vector< std::complex<double> > basePoint(std::complex<double>);
     void setZoom(double ratio){
         zoom = ratio;
         iterMax = (int)(100*std::log(ratio+1));
