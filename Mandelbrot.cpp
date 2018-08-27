@@ -8,7 +8,8 @@
 
 Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
 {
-    iterMax = 50;
+    iterMax = 69;
+    
     vue = sf::Rect<double>(-0.75, 0, 2.7, 2.4);
     zoom = 1.0;
     liste.push_back(sf::Color::Black);
@@ -21,10 +22,10 @@ Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
     liste.push_back(sf::Color::Red);
     
     setSize(width, height);
-
+    
     const std::string number = "3.141592653589793238462643383279502884197169399375105820974944592307816406286";
     mpf_class pi(number, 200);
-
+    
     std::cout << std::setprecision(200) << pi << std::endl;
 }
 
@@ -54,7 +55,7 @@ std::vector< std::complex<double> > Mandelbrot::basePoint(std::complex<double> c
     for(unsigned int i=0; i<iterMax; i++){
         table.push_back(z);
         z = z * z + c;
-        if(std::norm(z) > 4)
+        if(std::norm(z) > 1000000)
             return table;
     }
     
@@ -67,7 +68,7 @@ void Mandelbrot::update()
     std::cout << "IterMax : " << iterMax << std::endl;
     
     std::complex<double> start  ( (0.5 * vue.width/zoom + vue.left - vue.width/ zoom/2) ,
-                            (0.5 * vue.height/zoom + vue.top - vue.height/ zoom/2) );
+                                 (0.5 * vue.height/zoom + vue.top - vue.height/ zoom/2) );
     std::vector< std::complex<double> > table = basePoint(start);
     std::cout << table.size() << "/" << iterMax << std::endl;
     
@@ -76,21 +77,25 @@ void Mandelbrot::update()
         for (unsigned int ordonnee = 0; ordonnee < rendu.getSize().y; ordonnee++)
         {
             std::complex<double> c ( (static_cast<double>(abscisse) / static_cast<double>(rendu.getSize().x)  * vue.width/zoom + vue.left - vue.width/ zoom/2) ,
-                                   (static_cast<double>(ordonnee) / static_cast<double>(rendu.getSize().y) * vue.height/zoom + vue.top - vue.height/ zoom/2) );
+                                    (static_cast<double>(ordonnee) / static_cast<double>(rendu.getSize().y) * vue.height/zoom + vue.top - vue.height/ zoom/2) );
             std::complex<double> d0 = c - start;
-            std::complex<double> dn = d0;
-            unsigned int i = 0;
             
-            while (std::norm(dn + table[i]) < 1024 && i < table.size()) {
-                dn = (table[i+1] + table[i+1])*dn + dn*dn + d0;
-                i++;
+            unsigned int i = 0;
+            std::complex<double> dn = d0;
+            do
+            {
+                dn *= (table[i+1] + table[i+1]) + dn;
+                dn += d0;
+                ++i;
             }
+            while (std::norm(table[i+1] + dn) < 1000000 && i < table.size());
+            
             iterations[abscisse * rendu.getSize().y + ordonnee] = i;
         }
     }
     render();
 }
- 
+
 void Mandelbrot::render(){
     assert(liste.size() >= 2);
     
@@ -113,9 +118,9 @@ void Mandelbrot::render(){
             if (i == iterMax)
                 couleur = sf::Color::Black;
             else {
-	      couleur.r = (int)( liste[depart].r + (liste[arrivee].r - liste[depart].r) * distRel );
-	      couleur.g = (int)( liste[depart].g + (liste[arrivee].g - liste[depart].g) * distRel );
-	      couleur.b = (int)( liste[depart].b + (liste[arrivee].b - liste[depart].b) * distRel );
+                couleur.r = (int)( liste[depart].r + (liste[arrivee].r - liste[depart].r) * distRel );
+                couleur.g = (int)( liste[depart].g + (liste[arrivee].g - liste[depart].g) * distRel );
+                couleur.b = (int)( liste[depart].b + (liste[arrivee].b - liste[depart].b) * distRel );
             }
             rendu.setPixel(abscisse, ordonnee, couleur);
         }
