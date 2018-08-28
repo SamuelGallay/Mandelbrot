@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <ctime>
+#include <iostream>
 
 #include "Mandelbrot.hpp"
 
@@ -58,6 +59,11 @@ int main(int, char const**)
                 fractale.setZoom(fractale.getZoom()*vitZoom);
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::S)
                 fractale.setZoom(fractale.getZoom()/vitZoom);
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::D){
+                int d;
+                std::cin >> d;
+                fractale.setIter(d);
+            }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Y) {
                 fractale.getImage().saveToFile(chemin + std::to_string(time(NULL)) + ".png");
             }

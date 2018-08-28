@@ -12,11 +12,14 @@ class Mandelbrot
 public:
     Mandelbrot(unsigned int width, unsigned int height);
     void setSize(unsigned int width, unsigned int height);
-    std::vector< std::complex<double> > basePoint(std::complex<double>);
+    
     void setZoom(double ratio){
         zoom = ratio;
-        iterMax = (int)(100*std::log(ratio+1));
+        iterMax = (int)(200*std::pow(ratio, 1.0/4.0));
         update();
+    }
+    void setIter(int a){
+        iterMax = a;
     }
     void move(sf::Vector2f direction){
         vue.left += direction.x / zoom;
@@ -34,11 +37,15 @@ private:
     std::vector<sf::Color> liste;
     void update();
     void render();
+    void basePoint();
     sf::Image rendu;
     std::vector<unsigned int> iterations;
     unsigned int iterMax;
     sf::Rect<double> vue;
     double zoom;
+    std::complex<double> x;
+    std::vector< std::complex<double> > xn;
+    bool optimal;
 };
 
 #endif /* Mandelbrot_hpp */
