@@ -40,7 +40,7 @@ void Mandelbrot::update()
             std::complex<double> c ( (static_cast<double>(abscisse) / static_cast<double>(rendu.getSize().x)  * vue.width/zoom + vue.left - vue.width/ zoom/2) ,
                                     (static_cast<double>(ordonnee) / static_cast<double>(rendu.getSize().y) * vue.height/zoom + vue.top - vue.height/ zoom/2) );
             unsigned int i = 0;
-            if( (c.real()+1)*(c.real()+1) + c.imag()*c.imag() < 0.0625 or c.real() < sqrt((c.real()-0.25)*(c.real()-0.25) + c.imag()*c.imag()) - 2*((c.real()-0.25)*(c.real()-0.25) + c.imag()*c.imag()) + 0.25){
+            if( (c.real()+1)*(c.real()+1) + c.imag()*c.imag() < 0.0625 || c.real() < sqrt((c.real()-0.25)*(c.real()-0.25) + c.imag()*c.imag()) - 2*((c.real()-0.25)*(c.real()-0.25) + c.imag()*c.imag()) + 0.25){
                 i = xn.size();
                 if(!optimal){
                     x = c;
