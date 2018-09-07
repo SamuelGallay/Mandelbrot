@@ -1,91 +1,69 @@
-#include "Mandelbrot.hpp"
+#include "Mandelbrot.h"
+
 #include <cassert>
+#include <complex>
+#include <cmath>
 
-Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
-{
-    iterMax = 50;
-    vue = sf::Rect<double>(-0.75, 0, 2.7, 2.4);
-    zoom = 1.0;
-    liste.push_back(sf::Color::Black);
-    liste.push_back(sf::Color::Blue);
-    liste.push_back(sf::Color::Yellow);
-    liste.push_back(sf::Color::Magenta);
-    liste.push_back(sf::Color::Red);
-    liste.push_back(sf::Color::Yellow);
-    liste.push_back(sf::Color::Magenta);
-    liste.push_back(sf::Color::Red);
-    
-    setSize(width, height);
-}
-
-void Mandelbrot::setSize(unsigned int width, unsigned int height)
-{
-    if ( (rendu.getSize().x != width) || (rendu.getSize().y != height) )
-    {
-        rendu.create(width, height, sf::Color::Black);
-        iterations.resize(width * height);
-        if (static_cast<double>(width) / static_cast<double>(height) >= 1.0){
-            vue.width = 2.7 * static_cast<double>(width) / static_cast<double>(height);
-            vue.height = 2.4;
-        }
-        else{
-            vue.width = 2.7;
-            vue.height = 2.4 * static_cast<double>(height) / static_cast<double>(width);
-        }
-        update();
+void mandelbrot(std::shared_ptr<sf::Image> rendu, Parameters param) {
+    sf::Rect<double> vue;
+    if (static_cast<double>(param.definition.x) / static_cast<double>(param.definition.y) >= 1.0) {
+        vue.width = 2.7 * static_cast<double>(param.definition.x) / static_cast<double>(param.definition.y);
+        vue.height = 2.4;
+    } else {
+        vue.width = 2.7;
+        vue.height = 2.4 * static_cast<double>(param.definition.y) / static_cast<double>(param.definition.x);
     }
-}
+    vue.left = param.center.x;
+    vue.top = param.center.y;
 
-void Mandelbrot::update()
-{
-    std::cout << "Zoom : " << zoom << std::endl;
-    std::cout << "IterMax : " << iterMax << std::endl;
-    for (unsigned int abscisse = 0; abscisse < rendu.getSize().x; abscisse++)
-    {
-        for (unsigned int ordonnee = 0; ordonnee < rendu.getSize().y; ordonnee++)
-        {
-            std::complex<double> c ( (static_cast<double>(abscisse) / static_cast<double>(rendu.getSize().x)  * vue.width/zoom + vue.left - vue.width/ zoom/2) ,
-                                   (static_cast<double>(ordonnee) / static_cast<double>(rendu.getSize().y) * vue.height/zoom + vue.top - vue.height/ zoom/2) );
+    assert(param.liste.size() >= 2);
+
+    for (unsigned int abscisse = 0; abscisse < param.definition.x; abscisse++) {
+        for (unsigned int ordonnee = 0; ordonnee < param.definition.y; ordonnee++) {
+            std::complex<double> c(
+                    (static_cast<double>(abscisse) / static_cast<double>(param.definition.x) * vue.width / param.zoom +
+                     vue.left -
+                     vue.width / param.zoom / 2),
+                    (static_cast<double>(ordonnee) / static_cast<double>(param.definition.y) * vue.height / param.zoom +
+                     vue.top -
+                     vue.height / param.zoom / 2));
             std::complex<double> z(0.0, 0.0);
             unsigned int i = 0;
-            
-            while (std::norm(z) < 4 && i < iterMax) {
+
+            if ((c.real() + 1) * (c.real() + 1) + c.imag() * c.imag() < 0.0625)
+                i = param.iterMax;
+            if(c.real() < sqrt((c.real() - 0.25) * (c.real() - 0.25) + c.imag() * c.imag()) - 2 * ((c.real() - 0.25) *
+             (c.real() - 0.25) + c.imag() * c.imag()) + 0.25)
+                i = param.iterMax;
+
+            while (std::norm(z) < 256 && i < param.iterMax) {
                 z = z * z + c;
                 i++;
             }
-            iterations[abscisse * rendu.getSize().y + ordonnee] = i;
-        }
-    }
-    render();
-}
- 
-void Mandelbrot::render(){
-    assert(liste.size() >= 2);
-    
-    for (unsigned int abscisse = 0; abscisse < rendu.getSize().x; abscisse++)
-    {
-        for (unsigned int ordonnee = 0; ordonnee < rendu.getSize().y; ordonnee++)
-        {
-            unsigned int i = iterations[abscisse * rendu.getSize().y + ordonnee];
-            float distAbs = static_cast<float>(i)/static_cast<float>(iterMax);
-            
-            int depart = liste.size() - 1;
+
+            float distAbs = (float) i / (float) param.iterMax;
+
+            int depart = param.liste.size() - 1;
             int arrivee = 0;
-            
-            while (static_cast<float>(depart)/static_cast<float>(liste.size()-1) > distAbs) {depart--;}
-            while (static_cast<float>(arrivee)/static_cast<float>(liste.size()-1) < distAbs) {arrivee++;}
-            
-            float distRel = ( distAbs - static_cast<float>(depart)/static_cast<float>(liste.size()-1) ) * (liste.size()-1);
-            
+
+            while (static_cast<float>(depart) / static_cast<float>(param.liste.size() - 1) > distAbs) { depart--; }
+            while (static_cast<float>(arrivee) / static_cast<float>(param.liste.size() - 1) < distAbs) { arrivee++; }
+
+            float distRel =
+                    (distAbs - static_cast<float>(depart) / static_cast<float>(param.liste.size() - 1)) *
+                    (param.liste.size() - 1);
+
             sf::Color couleur;
-            if (i == iterMax)
+            if (i == param.iterMax)
                 couleur = sf::Color::Black;
             else {
-                couleur.r = liste[depart].r + (liste[arrivee].r - liste[depart].r) * distRel;
-                couleur.g = liste[depart].g + (liste[arrivee].g - liste[depart].g) * distRel;
-                couleur.b = liste[depart].b + (liste[arrivee].b - liste[depart].b) * distRel;
+                couleur.r = (int) (param.liste[depart].r + (param.liste[arrivee].r - param.liste[depart].r) * distRel);
+                couleur.g = (int) (param.liste[depart].g + (param.liste[arrivee].g - param.liste[depart].g) * distRel);
+                couleur.b = (int) (param.liste[depart].b + (param.liste[arrivee].b - param.liste[depart].b) * distRel);
             }
-            rendu.setPixel(abscisse, ordonnee, couleur);
+            rendu->setPixel(abscisse, ordonnee, couleur);
         }
     }
+
+
 }

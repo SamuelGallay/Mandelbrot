@@ -19,7 +19,5 @@ Sinon il est très simple de le compiler soi-même depuis les sources, avec [CMa
 * S pour dézoomer
 * F pour augmenter le flou (plus rapide)
 * R pour baisser le flou (plus détaillé)
-* Y pour capturer l'écran à la définition de la fênetre
-* H pour capturer l'écran en HD, 16x la définition de la fênetre
 
 * Les captures d'écran ne tiennent pas compte du flou
