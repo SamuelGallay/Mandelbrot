@@ -6,7 +6,7 @@
 Option::Option(sf::RenderWindow &Window , Mandelbrot &Fractales):
 mWindow(&Window),mMandelbrot(&Fractales),isRunning(true)
 ,mAddColor(200.f,100.f,*mWindow),mSupprColor(200.f,100.f,*mWindow),mApply(200.f,100.f,*mWindow)
-,mRed(*mWindow),mGreen(*mWindow),mBlue(*mWindow),mListeCouleurs(mMandelbrot->getColors())
+,mRed(*mWindow),mGreen(*mWindow),mBlue(*mWindow),mEditedColor(sf::Vector2f(100.f,100.f)),mListeCouleurs(mMandelbrot->getColors())
 {
     mAddColor.setText("Ajouter couleur");
     mAddColor.setPosition(400.f,200.f);
@@ -20,6 +20,8 @@ mWindow(&Window),mMandelbrot(&Fractales),isRunning(true)
     mRed.setPosition(100.f,100.f);
     mGreen.setPosition(100.f,200.f);
     mBlue.setPosition(100.f,300.f);
+
+    mEditedColor.setPosition(100.f,405.f);
 }
 
 void Option::run()
@@ -54,9 +56,11 @@ void Option::processEvent()
     if(stringToInt(mBlue.getText())>255)
         mBlue.write("255");
 
+    sf::Color newColor(stringToInt(mRed.getText()),stringToInt(mGreen.getText()),stringToInt(mBlue.getText()));
+    mEditedColor.setFillColor(newColor);
+
     if(mAddColor.Test())
     {
-        sf::Color newColor(stringToInt(mRed.getText()),stringToInt(mGreen.getText()),stringToInt(mBlue.getText()));
         mListeCouleurs.push_back(newColor);
     }
     if(mSupprColor.Test()&&mListeCouleurs.size()>=0)
@@ -76,14 +80,17 @@ void Option::render()
     mWindow->draw(mAddColor);
     mWindow->draw(mSupprColor);
     mWindow->draw(mApply);
+    mWindow->draw(mEditedColor);
 
     for(unsigned int i(0);i<mListeCouleurs.size();i++)
     {
         sf::RectangleShape rColor(sf::Vector2f(50,50));
         rColor.setPosition(900,(i*51)+5);
+        rColor.setOutlineColor(sf::Color::White);
         rColor.setFillColor(mListeCouleurs[i]);
         mWindow->draw(rColor);
     }
+
 
     mWindow->draw(mRed);
     mWindow->draw(mGreen);

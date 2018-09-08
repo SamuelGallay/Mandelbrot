@@ -28,6 +28,7 @@ class Option
         TextBox mRed;
         TextBox mGreen;
         TextBox mBlue;
+        sf::RectangleShape mEditedColor;
         std::vector<sf::Color> mListeCouleurs;
 };
 
