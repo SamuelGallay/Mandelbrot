@@ -12,11 +12,9 @@ Mandelbrot::Mandelbrot(unsigned int width, unsigned int height)
     zoom = 1.0;
     liste.push_back(sf::Color::Black);
     liste.push_back(sf::Color::Blue);
+    liste.push_back(sf::Color::Cyan);
+    liste.push_back(sf::Color::Green);
     liste.push_back(sf::Color::Yellow);
-    liste.push_back(sf::Color::Magenta);
-    liste.push_back(sf::Color::Red);
-    liste.push_back(sf::Color::Yellow);
-    liste.push_back(sf::Color::Magenta);
     liste.push_back(sf::Color::Red);
 
     setSize(width, height);

@@ -87,6 +87,7 @@ void Option::render()
         sf::RectangleShape rColor(sf::Vector2f(50,50));
         rColor.setPosition(900,(i*51)+5);
         rColor.setOutlineColor(sf::Color::White);
+        rColor.setOutlineThickness(1);
         rColor.setFillColor(mListeCouleurs[i]);
         mWindow->draw(rColor);
     }
