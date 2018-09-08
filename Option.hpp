@@ -24,6 +24,7 @@ class Option
         bool isRunning;
         Bouton mAddColor;
         Bouton mSupprColor;
+        Bouton mApply;
         TextBox mRed;
         TextBox mGreen;
         TextBox mBlue;

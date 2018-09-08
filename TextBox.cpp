@@ -90,6 +90,7 @@ void TextBox::update(sf::Event &event)
             if(mString.size()>0)
             {
                 mString.pop_back();
+                mText.setString(mString);
             }
         }
     }

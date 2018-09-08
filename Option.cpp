@@ -5,13 +5,17 @@
 
 Option::Option(sf::RenderWindow &Window , Mandelbrot &Fractales):
 mWindow(&Window),mMandelbrot(&Fractales),isRunning(true)
-,mAddColor(200.f,100.f,*mWindow),mSupprColor(200.f,100.f,*mWindow),mRed(*mWindow),mGreen(*mWindow),mBlue(*mWindow),mListeCouleurs(mMandelbrot->getColors())
+,mAddColor(200.f,100.f,*mWindow),mSupprColor(200.f,100.f,*mWindow),mApply(200.f,100.f,*mWindow)
+,mRed(*mWindow),mGreen(*mWindow),mBlue(*mWindow),mListeCouleurs(mMandelbrot->getColors())
 {
     mAddColor.setText("Ajouter couleur");
     mAddColor.setPosition(400.f,200.f);
 
     mSupprColor.setText("Supprimer Couleur");
     mSupprColor.setPosition(400.f,300.f);
+
+    mApply.setText("Appliquer");
+    mApply.setPosition(400.f,400.f);
 
     mRed.setPosition(100.f,100.f);
     mGreen.setPosition(100.f,200.f);
@@ -59,7 +63,10 @@ void Option::processEvent()
     {
         mListeCouleurs.pop_back();
     }
-
+    if(mApply.Test()&&mListeCouleurs.size()>0)
+    {
+        mMandelbrot->setColors(mListeCouleurs);
+    }
 
 }
 
@@ -68,6 +75,7 @@ void Option::render()
     mWindow->clear();
     mWindow->draw(mAddColor);
     mWindow->draw(mSupprColor);
+    mWindow->draw(mApply);
 
     for(unsigned int i(0);i<mListeCouleurs.size();i++)
     {
