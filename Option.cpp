@@ -63,7 +63,7 @@ void Option::processEvent()
     {
         mListeCouleurs.push_back(newColor);
     }
-    if(mSupprColor.Test()&&mListeCouleurs.size()>=0)
+    if(mSupprColor.Test()&&mListeCouleurs.size()>0)
     {
         mListeCouleurs.pop_back();
     }
