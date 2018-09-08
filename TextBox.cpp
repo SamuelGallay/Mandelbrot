@@ -9,7 +9,7 @@
 #include "police.hpp"
 #endif // PHIL
 
-TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,15.f)),isSelect(false),mString("")
+TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(150.f,45.f)),isSelect(false),mString("")
 {
     #if PHIL
     if(!mFont.loadFromFile("police.ttf"))

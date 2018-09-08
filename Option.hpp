@@ -23,7 +23,10 @@ class Option
         Mandelbrot* mMandelbrot;
         bool isRunning;
         Bouton mAddColor;
+        Bouton mSupprColor;
         TextBox mRed;
+        TextBox mGreen;
+        TextBox mBlue;
         std::vector<sf::Color> mListeCouleurs;
 };
 
