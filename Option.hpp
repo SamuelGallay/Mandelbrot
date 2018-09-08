@@ -24,6 +24,7 @@ class Option
         bool isRunning;
         Bouton mAddColor;
         TextBox mRed;
+        std::vector<sf::Color> mListeCouleurs;
 };
 
 #endif // OPTION_HPP

@@ -2,7 +2,10 @@
 
 #include <iostream>
 
+#if PHIL
+#else
 #include "police.hpp"
+#endif // PHIL
 
 Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y)),isPressed(false),mWindow(&window)
 {
@@ -10,10 +13,17 @@ Bouton::Bouton(float x,float y,sf::RenderWindow &window):mForme(sf::Vector2f(x,y
     mForme.setOutlineColor(sf::Color::Black);
     mForme.setOutlineThickness(1.f);
 
+    #if PHIL
+    if(!mFont.loadFromFile("police.ttf"))
+    {
+        std::cout<<"impossible de charger la police de texte";
+    }
+    #else
     if(!mFont.loadFromMemory( policeData, sizeof(policeData) ))
     {
         std::cout<<"impossible de charger la police de texte";
     }
+    #endif // PHIL
 
     mText.setFont(mFont);
     mText.setString("");

@@ -5,7 +5,7 @@
 
 Option::Option(sf::RenderWindow &Window , Mandelbrot &Fractales):
 mWindow(&Window),mMandelbrot(&Fractales),isRunning(true)
-,mAddColor(200.f,150.f,*mWindow),mRed(*mWindow)
+,mAddColor(200.f,150.f,*mWindow),mRed(*mWindow),mListeCouleurs(mMandelbrot->getColors())
 {
     mAddColor.setText("AddThisColor");
     mAddColor.setPosition(400.f,250.f);
@@ -46,6 +46,15 @@ void Option::render()
 {
     mWindow->clear();
     mWindow->draw(mAddColor);
+
+    for(unsigned int i(0);i<mListeCouleurs.size();i++)
+    {
+        sf::RectangleShape rColor(sf::Vector2f(50,50));
+        rColor.setPosition(900,(i*51)+5);
+        rColor.setFillColor(mListeCouleurs[i]);
+        mWindow->draw(rColor);
+    }
+
     mWindow->draw(mRed);
     mWindow->display();
 }

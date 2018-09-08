@@ -2,14 +2,26 @@
 
 #include <iostream>
 
+
+
+#if PHIL
+#else
 #include "police.hpp"
+#endif // PHIL
 
 TextBox::TextBox(sf::RenderWindow &Window):mWindow(&Window),mBox(sf::Vector2f(50.f,15.f)),isSelect(false),mString("")
 {
+    #if PHIL
+    if(!mFont.loadFromFile("police.ttf"))
+    {
+        std::cout<<"impossible de charger la police de texte";
+    }
+    #else
     if(!mFont.loadFromMemory( policeData, sizeof(policeData) ))
     {
         std::cout<<"impossible de charger la police de texte";
     }
+    #endif // PHIL
     mText.setFont(mFont);
     mText.setCharacterSize(10);
     mText.setFillColor(sf::Color::White);

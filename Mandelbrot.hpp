@@ -13,7 +13,7 @@ public:
     void setZoom(double ratio);
     void move(sf::Vector2f direction);
 	void setColors(std::vector<sf::Color> newList);
-	
+
     double getZoom(){
         return zoom;
     }
@@ -23,7 +23,7 @@ public:
 	std::vector<sf::Color> getColors(){
 		return liste;
 	}
-	
+
 
 private:
     std::vector<sf::Color> liste;
