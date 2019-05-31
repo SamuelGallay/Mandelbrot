@@ -4,7 +4,7 @@
 #include <complex>
 #include <cmath>
 
-void mandelbrot(std::shared_ptr<sf::Image> rendu, Parameters param) {
+void mandelbrot(std::shared_ptr<sf::Image> rendu, Parameters param, std::atomic_bool &actualize) {
     sf::Rect<double> vue;
     if (static_cast<double>(param.definition.x) / static_cast<double>(param.definition.y) >= 1.0) {
         vue.width = 2.7 * static_cast<double>(param.definition.x) / static_cast<double>(param.definition.y);
@@ -62,7 +62,11 @@ void mandelbrot(std::shared_ptr<sf::Image> rendu, Parameters param) {
                 couleur.b = (int) (param.liste[depart].b + (param.liste[arrivee].b - param.liste[depart].b) * distRel);
             }
             rendu->setPixel(abscisse, ordonnee, couleur);
+            if (actualize)
+                break;
         }
+        if(actualize)
+            break;
     }
 
 

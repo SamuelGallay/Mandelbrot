@@ -5,6 +5,7 @@
 
 #include <SFGUI/SFGUI.hpp>
 #include <SFGUI/Widgets.hpp>
+#include <atomic>
 
 #include "Parameters.h"
 
@@ -34,7 +35,10 @@ private:
     double vitesse;
     double vitZoom;
     int flou;
-    sf::Clock test;
+    sf::Clock clock;
+
+    std::atomic_bool stop_thread;
+    std::atomic_bool actualize_rendering;
 
     Parameters param;
 

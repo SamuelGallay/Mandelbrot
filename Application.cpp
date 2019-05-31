@@ -36,17 +36,16 @@ Application::Application() : window(sf::VideoMode(1000, 600), "Mandelbrot Render
     initializeGUI();
 
     updateInfosGUI();
-
-    std::thread thread_object(mandelbrot, rendu, param);
-    thread_object.join();
 }
 
 void Application::run() {
+    stop_thread = false;
+    actualize_rendering = false;
+
     std::thread worker(&Application::runWorker, this);
-    worker.detach();
 
     while (window.isOpen()) {
-        sf::Time delta = test.restart();
+        sf::Time delta = clock.restart();
 
         Parameters oldParam = param;
 
@@ -58,20 +57,29 @@ void Application::run() {
 
         desktop.Update(delta.asSeconds());
 
-        if (oldParam != param) {
+        if (oldParam.definition != param.definition)
+            actualize_rendering = true;
+
+        if (oldParam != param)
             updateInfosGUI();
+
+        if (oldParam.liste != param.liste)
             updateColors();
-        }
+
         sf::Texture test;
         test.loadFromImage(*rendu);
         sf::Sprite sprite(test);
         sprite.setScale(static_cast<float>(flou), static_cast<float>(flou));
 
         window.clear();
-        window.draw(sprite);
+        if(!actualize_rendering)
+            window.draw(sprite);
         sfgui.Display(window);
         window.display();
     }
+    stop_thread = true;
+    actualize_rendering = true;
+    worker.join();
 }
 
 void Application::handleInputs(sf::Event event) {
@@ -135,7 +143,7 @@ void Application::wallpaper(Parameters c_param) {
     c_param.definition = sf::Vector2<unsigned int>(1920 * 2, 1200 * 2);
     auto temp = std::make_shared<sf::Image>();
     temp->create(1920 * 2, 1200 * 2);
-    mandelbrot(temp, c_param);
+    mandelbrot(temp, c_param, stop_thread);
     sf::Image poster;
     poster.create(1920, 1200);
     for (int y = 0; y < 1200; y++) {
@@ -199,9 +207,9 @@ void Application::initializeGUI() {
     button->SetLabel("Compute");
     add_color = sfg::Button::Create();
     add_color->SetLabel("Add Color");
-    s_red = sfg::SpinButton::Create(0, 255, 10);
-    s_green = sfg::SpinButton::Create(0, 255, 10);
-    s_blue = sfg::SpinButton::Create(0, 255, 10);
+    s_red = sfg::SpinButton::Create(0, 255, 1);
+    s_green = sfg::SpinButton::Create(0, 255, 1);
+    s_blue = sfg::SpinButton::Create(0, 255, 1);
     boxRGB = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
     boxRGB->Pack(s_red);
     boxRGB->Pack(s_green);
@@ -214,7 +222,7 @@ void Application::initializeGUI() {
     boxV->Pack(boxRGB);
     boxV->Pack(add_color);
     boxV->Pack(boxH2);
-    boxV->SetSpacing(20.f);
+    boxV->SetSpacing(15.f);
     swindow = sfg::Window::Create();
     swindow->SetTitle("Mandelbrot Set");
     swindow->Add(boxV);
@@ -251,6 +259,21 @@ void Application::initializeGUI() {
     add_color->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
         param.liste.push_back(sf::Color(s_red->GetValue(), s_green->GetValue(), s_blue->GetValue()));
     });
+
+    auto glambda = [this]() {
+        sf::Image temp;
+        temp.create(50, 15, sf::Color(s_red->GetValue(), s_green->GetValue(), s_blue->GetValue()));
+        auto temp2 = sfg::Image::Create();
+        temp2->SetImage(temp);
+        add_color->SetImage(temp2);
+    };
+    glambda();
+
+    swindow->GetSignal(sfg::Window::OnMouseMove).Connect(glambda);
+
+    s_red->GetSignal(sfg::SpinButton::OnValueChanged).Connect(glambda);
+    s_blue->GetSignal(sfg::SpinButton::OnValueChanged).Connect(glambda);
+    s_green->GetSignal(sfg::SpinButton::OnValueChanged).Connect(glambda);
 }
 
 void Application::updateInfosGUI() {
@@ -267,12 +290,13 @@ void Application::updateInfosGUI() {
 void Application::runWorker() {
     sf::Vector2<unsigned int> oldDefinition = param.definition;
 
-    while (true) {
+    while (!stop_thread) {
         if (param.definition != oldDefinition) {
             oldDefinition = param.definition;
             rendu->create(param.definition.x, param.definition.y, sf::Color::Black);
+            actualize_rendering = false;
         }
-        mandelbrot(rendu, param);
+        mandelbrot(rendu, param, ref(actualize_rendering));
     }
 }
 
@@ -284,7 +308,7 @@ void Application::updateColors() {
         auto temp = sfg::Button::Create();
 
         sf::Image a;
-        a.create(150, 20, param.liste[i]);
+        a.create(170, 20, param.liste[i]);
 
         auto b = sfg::Image::Create();
         b->SetImage(a);
@@ -293,8 +317,12 @@ void Application::updateColors() {
         listButtons.push_back(temp);
 
         boxColor->Pack(listButtons[i]);
-        listButtons[i]->GetSignal(sfg::Button::OnRightClick).Connect([this, i] {
-            param.liste.erase(param.liste.begin() + i);
+        listButtons[i]->GetSignal(sfg::Button::OnMouseRightPress).Connect([this, i] {
+            if (param.liste.size() > 2)
+                param.liste.erase(param.liste.begin() + i);
+        });
+        listButtons[i]->GetSignal(sfg::Button::OnLeftClick).Connect([this, i] {
+            param.liste[i] = sf::Color(s_red->GetValue(), s_green->GetValue(), s_blue->GetValue());
         });
     }
     auto ttt = sf::FloatRect(swindow->GetAbsolutePosition(), swindow->GetRequisition());
