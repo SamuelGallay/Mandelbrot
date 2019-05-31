@@ -26,6 +26,8 @@ private:
 
     void runWorker();
 
+    void updateColors();
+
     sfg::SFGUI sfgui;
     sf::RenderWindow window;
     std::shared_ptr<sf::Image> rendu;
@@ -37,12 +39,16 @@ private:
     Parameters param;
 
     sfg::Desktop desktop;
+    std::vector<sfg::Button::Ptr> listButtons;
 
     sfg::Entry::Ptr l_left;
     sfg::Entry::Ptr l_top;
 
     sfg::SpinButton::Ptr l_zoom;
     sfg::SpinButton::Ptr l_iterMax;
+    sfg::SpinButton::Ptr s_red;
+    sfg::SpinButton::Ptr s_green;
+    sfg::SpinButton::Ptr s_blue;
 
     sfg::Label::Ptr t_left;
     sfg::Label::Ptr t_top;
@@ -54,11 +60,14 @@ private:
     sfg::Box::Ptr boxH;
     sfg::Box::Ptr boxH2;
     sfg::Box::Ptr boxV;
+    sfg::Box::Ptr boxColor;
+    sfg::Box::Ptr boxRGB;
 
     sfg::Button::Ptr screenshot;
     sfg::Button::Ptr poster;
     sfg::CheckButton::Ptr check_button;
     sfg::Button::Ptr button;
+    sfg::Button::Ptr add_color;
     sfg::Window::Ptr swindow;
 };
 

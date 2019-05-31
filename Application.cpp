@@ -58,9 +58,10 @@ void Application::run() {
 
         desktop.Update(delta.asSeconds());
 
-        if (oldParam != param)
+        if (oldParam != param) {
             updateInfosGUI();
-
+            updateColors();
+        }
         sf::Texture test;
         test.loadFromImage(*rendu);
         sf::Sprite sprite(test);
@@ -196,9 +197,22 @@ void Application::initializeGUI() {
     boxH2->Pack(poster);
     button = sfg::Button::Create();
     button->SetLabel("Compute");
+    add_color = sfg::Button::Create();
+    add_color->SetLabel("Add Color");
+    s_red = sfg::SpinButton::Create(0, 255, 10);
+    s_green = sfg::SpinButton::Create(0, 255, 10);
+    s_blue = sfg::SpinButton::Create(0, 255, 10);
+    boxRGB = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
+    boxRGB->Pack(s_red);
+    boxRGB->Pack(s_green);
+    boxRGB->Pack(s_blue);
     boxV = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
     boxV->Pack(boxH);
     boxV->Pack(button);
+    boxColor = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+    boxV->Pack(boxColor);
+    boxV->Pack(boxRGB);
+    boxV->Pack(add_color);
     boxV->Pack(boxH2);
     boxV->SetSpacing(20.f);
     swindow = sfg::Window::Create();
@@ -207,9 +221,7 @@ void Application::initializeGUI() {
     swindow->SetRequisition(sf::Vector2f(150.f, 0.f));
     desktop.Add(swindow);
 
-    screenshot->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
-        rendu->saveToFile(std::to_string(time(NULL)) + ".png");
-    });
+    updateColors();
 
     button->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
         param.iterMax = (int) l_iterMax->GetValue();
@@ -229,10 +241,15 @@ void Application::initializeGUI() {
             std::cout << "Hello !!!" << std::endl;
         }
     });
-
+    screenshot->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
+        rendu->saveToFile(std::to_string(time(NULL)) + ".png");
+    });
     poster->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
         std::thread first(&Application::wallpaper, this, param);
         first.detach();
+    });
+    add_color->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
+        param.liste.push_back(sf::Color(s_red->GetValue(), s_green->GetValue(), s_blue->GetValue()));
     });
 }
 
@@ -257,4 +274,29 @@ void Application::runWorker() {
         }
         mandelbrot(rendu, param);
     }
+}
+
+void Application::updateColors() {
+    boxColor->RemoveAll();
+    listButtons.clear();
+
+    for(int i=0; i<param.liste.size(); i++){
+        auto temp = sfg::Button::Create();
+
+        sf::Image a;
+        a.create(150, 20, param.liste[i]);
+
+        auto b = sfg::Image::Create();
+        b->SetImage(a);
+        temp->SetImage(b);
+
+        listButtons.push_back(temp);
+
+        boxColor->Pack(listButtons[i]);
+        listButtons[i]->GetSignal(sfg::Button::OnRightClick).Connect([this, i] {
+            param.liste.erase(param.liste.begin() + i);
+        });
+    }
+    auto ttt = sf::FloatRect(swindow->GetAbsolutePosition(), swindow->GetRequisition());
+    swindow->SetAllocation(ttt);
 }
