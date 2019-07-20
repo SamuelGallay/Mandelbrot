@@ -32,8 +32,10 @@ void mandelbrot(std::shared_ptr<sf::Image> rendu, Parameters param) {
 
             if ((c.real() + 1) * (c.real() + 1) + c.imag() * c.imag() < 0.0625)
                 i = param.iterMax;
-            if(c.real() < sqrt((c.real() - 0.25) * (c.real() - 0.25) + c.imag() * c.imag()) - 2 * ((c.real() - 0.25) *
-             (c.real() - 0.25) + c.imag() * c.imag()) + 0.25)
+            if (c.real() < sqrt((c.real() - 0.25) * (c.real() - 0.25) + c.imag() * c.imag()) - 2 * ((c.real() - 0.25) *
+                                                                                                    (c.real() - 0.25) +
+                                                                                                    c.imag() *
+                                                                                                    c.imag()) + 0.25)
                 i = param.iterMax;
 
             while (std::norm(z) < 256 && i < param.iterMax) {

@@ -14,7 +14,7 @@ Application::Application() : window(sf::VideoMode(1000, 600), "Mandelbrot Render
 
     rendu = std::make_shared<sf::Image>();
     rendu->create(param.definition.x, param.definition.y);
-  
+
     vitesse = 0.6;
     vitZoom = 2.0;
     flou = 1;
@@ -33,7 +33,7 @@ void Application::run() {
 
         sf::Event event;
         while (window.pollEvent(event)) {
-	  handleInputs(event);
+            handleInputs(event);
         }
 
         sf::Texture texture;
@@ -50,20 +50,19 @@ void Application::run() {
 void Application::runWorker() {
     sf::Vector2<unsigned int> oldDefinition = param.definition;
     Parameters oldParam = param;
-    
+
     while (true) {
-      if(param != oldParam){
-	oldParam = param;
-	if (param.definition != oldDefinition) {
-            oldDefinition = param.definition;
-            rendu->create(param.definition.x, param.definition.y, sf::Color::Black);
+        if (param != oldParam) {
+            oldParam = param;
+            if (param.definition != oldDefinition) {
+                oldDefinition = param.definition;
+                rendu->create(param.definition.x, param.definition.y, sf::Color::Black);
+            }
+            mandelbrot(rendu, param);
+        } else {
+            std::chrono::milliseconds timespan(20);
+            std::this_thread::sleep_for(timespan);
         }
-        mandelbrot(rendu, param);
-      }
-      else{
-	std::chrono::milliseconds timespan(20);
-	std::this_thread::sleep_for(timespan);
-      }
     }
 }
 
@@ -81,7 +80,7 @@ void Application::handleInputs(sf::Event event) {
         param.center.x += vitesse / param.zoom;
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
         param.center.x -= vitesse / param.zoom;
-	
+
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F) {
         flou *= 2;
         param.definition.x = window.getSize().x / flou;
@@ -108,9 +107,9 @@ void Application::handleInputs(sf::Event event) {
         param.definition.x = window.getSize().x / flou;
         param.definition.y = window.getSize().y / flou;
     }
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::W){
-      std::thread worker2(&Application::wallpaper, this, param);
-      worker2.detach();
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::W) {
+        std::thread worker2(&Application::wallpaper, this, param);
+        worker2.detach();
     }
 }
 
