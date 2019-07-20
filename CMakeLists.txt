@@ -19,10 +19,12 @@ set(
         main.cpp
         Mandelbrot.cpp
         Application.cpp
-)
+        GUI.cpp GUI.h)
 
 add_executable(Mandelbrot ${SOURCES})
 target_link_libraries(Mandelbrot sfml-graphics ${CMAKE_THREAD_LIBS_INIT})
+
+configure_file(${CMAKE_SOURCE_DIR}/OpenSans-Light.ttf ${CMAKE_CURRENT_BINARY_DIR}/OpenSans-Light.ttf COPYONLY)
 
 # Install executable
 install(TARGETS Mandelbrot

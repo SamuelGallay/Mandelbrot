@@ -20,6 +20,7 @@ Application::Application() : window(sf::VideoMode(1000, 600), "Mandelbrot Render
     flou = 1;
 
     mandelbrot(rendu, param);
+    gui.setParameters(param);
 }
 
 void Application::run() {
@@ -36,6 +37,9 @@ void Application::run() {
             handleInputs(event);
         }
 
+        if (param != oldParam)
+            gui.setParameters(param);
+
         sf::Texture texture;
         texture.loadFromImage(*rendu);
         sf::Sprite sprite(texture);
@@ -43,6 +47,7 @@ void Application::run() {
 
         window.clear();
         window.draw(sprite);
+        window.draw(gui);
         window.display();
     }
 }

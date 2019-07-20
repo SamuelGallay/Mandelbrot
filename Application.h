@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Parameters.h"
+#include "GUI.h"
 #include <memory>
 
 class Application {
@@ -27,6 +28,7 @@ private:
     sf::Clock clock;
 
     Parameters param;
+    GUI gui;
 };
 
 #endif //MANDELBROT_APPLICATION_H
