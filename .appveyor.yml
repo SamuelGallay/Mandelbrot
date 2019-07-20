@@ -23,24 +23,14 @@ before_build:
   - IF NOT EXIST C:\projects\mandelbrot\SFML32\install cd ../../
   - IF NOT EXIST C:\projects\mandelbrot\SFML32\install mkdir SFML32
   - IF NOT EXIST C:\projects\mandelbrot\SFML32\install mv C:\projects\mandelbrot\SFML\installTemp C:\projects\mandelbrot\SFML32\install
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install git clone https://github.com/TankOs/SFGUI.git
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install cd SFGUI
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install mkdir installTemp
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install mkdir build
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install cd build
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install cmake .. -DCMAKE_INSTALL_PREFIX=../installTemp -DSFML_STATIC_LIBRARIES=TRUE -DSFGUI_BUILD_SHARED_LIBS=FALSE -DSFGUI_STATIC_STD_LIBS=TRUE -DSFML_DIR="C:\projects\mandelbrot\SFML32\install\lib\cmake\SFML" -DSFGUI_BUILD_EXAMPLES=FALSE
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install msbuild INSTALL.vcxproj
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install cd ../../
-  - IF NOT EXIST C:\projects\mandelbrot\SFGUI\install mv C:\projects\mandelbrot\SFGUI\installTemp C:\projects\mandelbrot\SFGUI\install
   - mkdir build
   - mkdir install
   - cd build
-  - cmake .. -DCMAKE_INSTALL_PREFIX=../install -DSFML_DIR="C:\projects\mandelbrot\SFML32\install\lib\cmake\SFML" -DSFML_STATIC_LIBRARIES=TRUE -DSFGUI_ROOT="C:\projects\mandelbrot\SFGUI\install"
+  - cmake .. -DCMAKE_INSTALL_PREFIX=../install -DSFML_DIR="C:\projects\mandelbrot\SFML32\install\lib\cmake\SFML" -DSFML_STATIC_LIBRARIES=TRUE
   - cd ..
 
 build:
   project: build\INSTALL.vcxproj
-
 
 artifacts:
   - path: install\Mandelbrot.exe

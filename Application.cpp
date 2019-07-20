@@ -3,7 +3,7 @@
 #include "Mandelbrot.h"
 
 #include <string>
-#include <ctime>
+#include <chrono>
 #include <iostream>
 #include <thread>
 #include <cmath>
@@ -12,33 +12,14 @@
 Application::Application() : window(sf::VideoMode(1000, 600), "Mandelbrot Render") {
     window.setFramerateLimit(30);
 
-    //Liste des Couleurs
-    param.liste.push_back(sf::Color::Black);
-    param.liste.push_back(sf::Color::Blue);
-    param.liste.push_back(sf::Color::Yellow);
-    param.liste.push_back(sf::Color::Magenta);
-    param.liste.push_back(sf::Color::Red);
-    param.liste.push_back(sf::Color::Yellow);
-    param.liste.push_back(sf::Color::Magenta);
-    param.liste.push_back(sf::Color::Red);
-
-    //Autres variables necessaires à la fractale
     rendu = std::make_shared<sf::Image>();
-    param.definition = window.getSize();
     rendu->create(param.definition.x, param.definition.y);
-    param.iterMax = 50;
-    param.center = sf::Vector2<double>(-0.75, 0.0);
-    param.zoom = 1.0;
+  
     vitesse = 0.6;
     vitZoom = 2.0;
     flou = 1;
 
-    initializeGUI();
-
-    updateInfosGUI();
-
-    std::thread thread_object(mandelbrot, rendu, param);
-    thread_object.join();
+    mandelbrot(rendu, param);
 }
 
 void Application::run() {
@@ -46,30 +27,43 @@ void Application::run() {
     worker.detach();
 
     while (window.isOpen()) {
-        sf::Time delta = test.restart();
+        sf::Time delta = clock.restart();
 
         Parameters oldParam = param;
 
         sf::Event event;
         while (window.pollEvent(event)) {
-            desktop.HandleEvent(event);
-            handleInputs(event);
+	  handleInputs(event);
         }
 
-        desktop.Update(delta.asSeconds());
-
-        if (oldParam != param)
-            updateInfosGUI();
-
-        sf::Texture test;
-        test.loadFromImage(*rendu);
-        sf::Sprite sprite(test);
+        sf::Texture texture;
+        texture.loadFromImage(*rendu);
+        sf::Sprite sprite(texture);
         sprite.setScale(static_cast<float>(flou), static_cast<float>(flou));
 
         window.clear();
         window.draw(sprite);
-        sfgui.Display(window);
         window.display();
+    }
+}
+
+void Application::runWorker() {
+    sf::Vector2<unsigned int> oldDefinition = param.definition;
+    Parameters oldParam = param;
+    
+    while (true) {
+      if(param != oldParam){
+	oldParam = param;
+	if (param.definition != oldDefinition) {
+            oldDefinition = param.definition;
+            rendu->create(param.definition.x, param.definition.y, sf::Color::Black);
+        }
+        mandelbrot(rendu, param);
+      }
+      else{
+	std::chrono::milliseconds timespan(20);
+	std::this_thread::sleep_for(timespan);
+      }
     }
 }
 
@@ -78,18 +72,16 @@ void Application::handleInputs(sf::Event event) {
         window.close();
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
         window.close();
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up) {
+
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up)
         param.center.y -= vitesse / param.zoom;
-    }
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down) {
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down)
         param.center.y += vitesse / param.zoom;
-    }
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
         param.center.x += vitesse / param.zoom;
-    }
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left) {
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
         param.center.x -= vitesse / param.zoom;
-    }
+	
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F) {
         flou *= 2;
         param.definition.x = window.getSize().x / flou;
@@ -100,6 +92,7 @@ void Application::handleInputs(sf::Event event) {
         param.definition.x = window.getSize().x / flou;
         param.definition.y = window.getSize().y / flou;
     }
+
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Z) {
         param.zoom *= vitZoom;
         param.iterMax = (int) (100 * std::log(param.zoom + 1));
@@ -108,24 +101,16 @@ void Application::handleInputs(sf::Event event) {
         param.zoom /= vitZoom;
         param.iterMax = (int) (100 * std::log(param.zoom + 1));
     }
-    if (event.key.control && event.key.code == sf::Keyboard::V) {
-        std::string presse = sf::Clipboard::getString();
-        if (l_left->HasFocus())
-            l_left->SetText(presse);
-        if (l_top->HasFocus())
-            l_top->SetText(presse);
-    }
-    if (event.key.control && event.key.code == sf::Keyboard::C) {
-        if (l_left->HasFocus())
-            sf::Clipboard::setString(l_left->GetText());
-        if (l_top->HasFocus())
-            sf::Clipboard::setString(l_top->GetText());
-    }
+
     if (event.type == sf::Event::Resized) {
         sf::FloatRect visibleArea(0.f, 0.f, (float) event.size.width, (float) event.size.height);
         window.setView(sf::View(visibleArea));
         param.definition.x = window.getSize().x / flou;
         param.definition.y = window.getSize().y / flou;
+    }
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::W){
+      std::thread worker2(&Application::wallpaper, this, param);
+      worker2.detach();
     }
 }
 
@@ -152,109 +137,4 @@ void Application::wallpaper(Parameters c_param) {
     }
     poster.saveToFile(std::to_string(time(NULL)) + ".png");
     std::cout << "Wallpaper saved in : " << std::to_string(chrono.restart().asSeconds()) << "s\n";
-}
-
-void Application::initializeGUI() {
-    // Construction GUI
-    l_left = sfg::Entry::Create();
-    l_left->SetMaximumLength(50);
-    l_top = sfg::Entry::Create();
-    l_top->SetMaximumLength(50);
-    l_zoom = sfg::SpinButton::Create(0, 100, 1);
-    l_iterMax = sfg::SpinButton::Create(0, 100000, 50);
-    t_left = sfg::Label::Create();
-    t_left->SetText("X");
-    t_top = sfg::Label::Create();
-    t_top->SetText("Y");
-    t_zoom = sfg::Label::Create();
-    t_zoom->SetText("Zoom (2^)");
-    t_iterMax = sfg::Label::Create();
-    t_iterMax->SetText("Iterations");
-    boxV1 = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
-    boxV1->Pack(t_left);
-    boxV1->Pack(t_top);
-    boxV1->Pack(t_zoom);
-    boxV1->Pack(t_iterMax);
-    boxV1->SetSpacing(5.f);
-    boxV2 = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
-    boxV2->Pack(l_left);
-    boxV2->Pack(l_top);
-    boxV2->Pack(l_zoom);
-    boxV2->Pack(l_iterMax);
-    boxV2->SetSpacing(5.f);
-    boxV2->SetRequisition(sf::Vector2f(100.f, 0.f));
-    boxH = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
-    boxH->SetSpacing(15.f);
-    boxH->Pack(boxV1);
-    boxH->Pack(boxV2);
-    screenshot = sfg::Button::Create();
-    screenshot->SetLabel("Screenshot");
-    poster = sfg::Button::Create();
-    poster->SetLabel("Wallpaper");
-    boxH2 = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
-    boxH2->Pack(screenshot);
-    boxH2->Pack(poster);
-    button = sfg::Button::Create();
-    button->SetLabel("Compute");
-    boxV = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
-    boxV->Pack(boxH);
-    boxV->Pack(button);
-    boxV->Pack(boxH2);
-    boxV->SetSpacing(20.f);
-    swindow = sfg::Window::Create();
-    swindow->SetTitle("Mandelbrot Set");
-    swindow->Add(boxV);
-    swindow->SetRequisition(sf::Vector2f(150.f, 0.f));
-    desktop.Add(swindow);
-
-    screenshot->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
-        rendu->saveToFile(std::to_string(time(NULL)) + ".png");
-    });
-
-    button->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
-        param.iterMax = (int) l_iterMax->GetValue();
-        param.zoom = std::pow(2, l_zoom->GetValue());
-        try {
-            std::string test = l_left->GetText();
-            param.center.x = std::stod(test);
-        }
-        catch (const std::invalid_argument &ia) {
-            std::cout << "Hello !!!" << std::endl;
-        }
-        try {
-            std::string test = l_top->GetText();
-            param.center.y = std::stod(test);
-        }
-        catch (const std::invalid_argument &ia) {
-            std::cout << "Hello !!!" << std::endl;
-        }
-    });
-
-    poster->GetSignal(sfg::Button::OnLeftClick).Connect([this] {
-        std::thread first(&Application::wallpaper, this, param);
-        first.detach();
-    });
-}
-
-void Application::updateInfosGUI() {
-    std::stringstream streamX;
-    streamX << std::fixed << std::setprecision(50) << param.center.x;
-    l_left->SetText(streamX.str());
-    std::stringstream streamY;
-    streamY << std::fixed << std::setprecision(50) << param.center.y;
-    l_top->SetText(streamY.str());
-    l_zoom->SetValue(std::round(std::log((float) param.zoom) / log(2.f)));
-    l_iterMax->SetValue((float) param.iterMax);
-}
-
-void Application::runWorker() {
-    sf::Vector2<unsigned int> oldDefinition = param.definition;
-
-    while (true) {
-        if (param.definition != oldDefinition) {
-            oldDefinition = param.definition;
-            rendu->create(param.definition.x, param.definition.y, sf::Color::Black);
-        }
-        mandelbrot(rendu, param);
-    }
 }
