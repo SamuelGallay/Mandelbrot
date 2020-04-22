@@ -106,6 +106,13 @@ void Application::handleInputs(sf::Event event) {
         param.iterMax = (int) (100 * std::log(param.zoom + 1));
     }
 
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I) {
+        param.iterMax *= 1.1;
+    }
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K) {
+        param.iterMax /= 1.1;
+    }
+
     if (event.type == sf::Event::Resized) {
         sf::FloatRect visibleArea(0.f, 0.f, (float) event.size.width, (float) event.size.height);
         window.setView(sf::View(visibleArea));

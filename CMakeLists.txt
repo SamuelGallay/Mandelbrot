@@ -19,7 +19,7 @@ set(
         main.cpp
         Mandelbrot.cpp
         Application.cpp
-        GUI.cpp GUI.h)
+        GUI.cpp)
 
 add_executable(Mandelbrot ${SOURCES})
 target_link_libraries(Mandelbrot sfml-graphics ${CMAKE_THREAD_LIBS_INIT})
